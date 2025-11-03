@@ -1,0 +1,48 @@
+{
+    "name": "DFC01",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+      "policyType": "Custom",
+      "mode": "All",
+      "displayName": "Denies the creation of Load Balancers with Public IPs",
+      "description": "Policy that restricts the Load Balancer from using a Public IP",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "SPC Common"
+      },
+      "version": "1.0.0",
+      "parameters": {
+        "effect": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        }
+      },
+      "policyRule": {
+        "if": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.Network/loadBalancers"
+            },
+            {
+              "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].publicIPAddress.id",
+              "exists": "true"
+            }
+          ]
+        },
+        "then": {
+          "effect": "[parameters('effect')]"
+        }
+      }
+    }
+  }

@@ -1,0 +1,339 @@
+{
+    "name": "CDS007-Auth-Mgmt-User-Identify",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+      "policyType": "Custom",
+      "displayName": "CDS007-Auth-Mgmt-User-Identify",
+      "description": "An initiative policy that requires accounts accessing Azure resources to use unique account names and restricts the use of easily guessable account names for accounts with administrative or special privileges.",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "SPC Common"
+      },
+      "parameters": {
+        "Effect-AADProvisionedSQLServers": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "Effect-FabricClusterOnlyUseAAD": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "The effect determines what happens when the policy rule is evaluated to match"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "Effect-EntraAdminProvisionedPostgresSQLServers": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "Effect-MLLocalAuthDisabled": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "Effect-AIServiceKeyAccessDisabled": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "Effect-VPNGWOnlyAADPointtoSite": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "Effect-StorageAccountPreventSharedKeyAccess": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "The effect determines what happens when the policy rule is evaluated to match"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "Effect-AzureSQLEntraOnlyAuthEnabledCreate": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "Effect-AzureSQLEntraOnlyAuthEnabled": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "Effect-AzureSQLMIEntraOnlyAuthEnabledCreate": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "Effect-AzureSQLMIEntraOnlyAuthEnabled": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "Effect-SynapseWSUseOnlyEntraAuthCreate": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "Effect-SynapseWSUseOnlyEntraAuth": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "Effect-PostgresflexEntraAuthOnly": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        }
+      },
+      "policyDefinitions": [
+        {
+          "policyDefinitionReferenceId": "AADProvisionedSQLServers",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1f314764-cb73-4fc9-b863-8eca98ac36e9",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-AADProvisionedSQLServers')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "FabricClusterOnlyUseAAD",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b54ed75b-3e1a-44ac-a333-05ba39b99ff0",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-FabricClusterOnlyUseAAD')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "EntraAdminProvisionedPostgresSQLServers",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b4dec045-250a-48c2-b5cc-e0c4eec8b5b4",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-EntraAdminProvisionedPostgresSQLServers')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "MLLocalAuthDisabled",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e96a9a5f-07ca-471b-9bc5-6a0f33cbd68f",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-MLLocalAuthDisabled')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "AIServiceKeyAccessDisabled",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/71ef260a-8f18-47b7-abcb-62d0673d94dc",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-AIServiceKeyAccessDisabled')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "VPNGWOnlyAADPointtoSite",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/21a6bc25-125e-4d13-b82d-2e19b7208ab7",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-VPNGWOnlyAADPointtoSite')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "StorageAccountPreventSharedKeyAccess",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/8c6a50c6-9ffd-4ae7-986f-5fa6111f9a54",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-StorageAccountPreventSharedKeyAccess')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "AzureSQLEntraOnlyAuthEnabledCreate",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/abda6d70-9778-44e7-84a8-06713e6db027",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-AzureSQLEntraOnlyAuthEnabledCreate')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "AzureSQLEntraOnlyAuthEnabled",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b3a22bc9-66de-45fb-98fa-00f5df42f41a",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-AzureSQLEntraOnlyAuthEnabled')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "AzureSQLMIEntraOnlyAuthEnabledCreate",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/78215662-041e-49ed-a9dd-5385911b3a1f",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-AzureSQLMIEntraOnlyAuthEnabledCreate')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "AzureSQLMIEntraOnlyAuthEnabled",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0c28c3fb-c244-42d5-a9bf-f35f2999577b",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-AzureSQLMIEntraOnlyAuthEnabled')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "SynapseWSUseOnlyEntraAuthCreate",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2158ddbe-fefa-408e-b43f-d4faef8ff3b8",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-SynapseWSUseOnlyEntraAuthCreate')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "SynapseWSUseOnlyEntraAuth",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6ea81a52-5ca7-4575-9669-eaa910b7edf8",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-SynapseWSUseOnlyEntraAuth')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "PostgresflexEntraAuthOnly",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/fa498b91-8a7e-4710-9578-da944c68d1fe",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-PostgresflexEntraAuthOnly')]"
+            }
+          },
+          "groupNames": []
+        }
+      ],
+      "policyDefinitionGroups": null
+    }
+  }

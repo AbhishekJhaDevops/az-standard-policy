@@ -1,0 +1,495 @@
+{
+  "name": "CDS005",
+  "type": "Microsoft.Authorization/policySetDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "policyType": "Custom",
+    "displayName": "[CDS005] Configure SQL VMs and Arc-enabled SQL servers",
+    "description": "This policy definition enables the configuration of SQL VMs and Arc-enabled SQL servers to install Microsoft Defender for SQL and Azure Monitor Agent with user-defined Log Analytics Workspace.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SPC Common"
+    },
+    "parameters": {
+      "BYOUsrAssginMI-CreateAssignBuiltInUserMI": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Bring your own User-Assigned Managed Identity",
+          "description": "Enable this to use your own user-assigned managed identity. The pre-created identity MUST exist otherwise the policy deployment will fail. If enabled, ensure that the user-assigned managed identity resource ID parameter matches the pre-created user-assigned managed identity resource ID. If not enabled, the policy will create a new user-assigned managed identitiy per subscription, in a new resource group named 'Built-In-Identity-RG'."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": false
+      },
+      "UsrAssignIdResourceId-CreateAssignBuiltInUserMI": {
+        "type": "String",
+        "metadata": {
+          "displayName": "User-Assigned Managed Identity Resource ID",
+          "description": "The resource ID of the pre-created user-assigned managed identity. This parameter is only used when bringYourOwnUserAssignedManagedIdentity is set to true"
+        },
+        "defaultValue": ""
+      },
+      "BuiltInIdResourceGroupLocation-CreateAssignBuiltInUserMI": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Built-In-Identity-RG Location",
+          "description": "The location of the resource group 'Built-In-Identity-RG' created by the policy."
+        },
+        "defaultValue": "eastus"
+      },
+      "Effect-CreateAssignBuiltInUserMI": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Policy Effect",
+          "description": "The effect determines what happens when the policy rule is evaluated to match."
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "BYOUsrAssginMI-ConfSqlVMInstallAzMonitorAgent": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Bring Your Own User-Assigned Identity",
+          "description": "Enable this to use your pre-created user-assigned managed identity. The pre-created identity MUST exist otherwise the policy deployment will fail. If enabled, ensure that the user-assigned managed identity resource ID parameter matches the pre-created user-assigned managed identity resource ID. If not enabled, the policy will create per subscription, per resource user-assigned managed identities in a new resource group named 'Built-In-Identity-RG'."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": false
+      },
+      "UsrAssignIdResourceId-ConfSqlVMInstallAzMonitorAgent": {
+        "type": "String",
+        "metadata": {
+          "displayName": "User-Assigned Managed Identity Resource ID",
+          "description": "The resource ID of the pre-created user-assigned managed identity. This parameter is only used when the Centralized User-Assigned Managed Identity parameter is true."
+        },
+        "defaultValue": ""
+      },
+      "Effect-ConfSqlVMInstallAzMonitorAgent": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "effect-ConfSqlVMInstallMDSQL": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "workspaceRegion-ConfSqlVMInstallMDSQL": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Workspace region",
+          "description": "Region of the Log Analytics workspace destination for the Data Collection Rule.",
+          "strongType": "location"
+        },
+        "defaultValue": ""
+      },
+      "usrWorkspaceId-ConfSqlVMInstallMDSQL": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Workspace Id",
+          "description": "Workspace Id of the Log Analytics workspace destination for the Data Collection Rule."
+        },
+        "defaultValue": ""
+      },
+      "BYODcr-ConfSqlVMInstallMDSQL": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Bring your own DCR",
+          "description": "Enable or disable the use of a user-defined Data Collection Rule."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": false
+      },
+      "dcrResourceId-ConfSqlVMInstallMDSQL": {
+        "type": "String",
+        "metadata": {
+          "displayName": "DCR Resource Id",
+          "description": "Resource Id of the user-defined Data Collection Rule."
+        },
+        "defaultValue": ""
+      },
+      "effect-ConfSqlVMInstallMDSQLDCRLAworkspace": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "usrWSRecourceId-ConfSqlVMInstallMDSQLDCRLAworkspace": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Workspace Resource Id",
+          "description": "Workspace resource Id of the Log Analytics workspace destination for the Data Collection Rule.",
+          "strongType": "omsWorkspace"
+        }
+      },
+      "workspaceRegion-ConfSqlVMInstallMDSQLDCRLAworkspace": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Workspace region",
+          "description": "Region of the Log Analytics workspace destination for the Data Collection Rule.",
+          "strongType": "location"
+        }
+      },
+      "usrWorkspaceId-ConfSqlVMInstallMDSQLDCRLAworkspace": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Workspace Id",
+          "description": "Workspace Id of the Log Analytics workspace destination for the Data Collection Rule."
+        },
+        "defaultValue": ""
+      },
+      "enableCollectionSqlQuries-ConfSqlVMInstallMDSQLDCRLAworkspace": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Enable collection of SQL queries for security research",
+          "description": "Enable or disable the collection of SQL queries for security research."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": false
+      },
+      "BYODcr-ConfSqlVMInstallMDSQLDCRLAworkspace": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Bring your own DCR",
+          "description": "Enable or disable the use of a user-defined Data Collection Rule."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": false
+      },
+      "Effect-ConfArcSqlInstallAzMonitorAgent": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy."
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "effect-ConfArcSqlInstallMDSQL": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "effect-ConfArcSqlInstallMDSQLDCRLAworkspace": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "usrWSRecourceId-ConfArcSqlInstallMDSQLDCRLAworkspace": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Workspace Resource Id",
+          "description": "Workspace resource Id of the Log Analytics workspace destination for the Data Collection Rule.",
+          "strongType": "omsWorkspace"
+        }
+      },
+      "workspaceRegion-ConfArcSqlInstallMDSQLDCRLAworkspace": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Workspace region",
+          "description": "Region of the Log Analytics workspace destination for the Data Collection Rule.",
+          "strongType": "location"
+        }
+      },
+      "usrWorkspaceId-ConfArcSqlInstallMDSQLDCRLAworkspace": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Workspace Id",
+          "description": "Workspace Id of the Log Analytics workspace destination for the Data Collection Rule."
+        },
+        "defaultValue": ""
+      },
+      "enableCollectionSqlQuries-ConfArcSqlInstallMDSQLDCRLAworkspace": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Enable collection of SQL queries for security research",
+          "description": "Enable or disable the collection of SQL queries for security research."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": false
+      },
+      "BYODcr-ConfArcSqlInstallMDSQLDCRLAworkspace": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Bring your own DCR",
+          "description": "Enable or disable the use of a user-defined Data Collection Rule."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": false
+      },
+      "effect-ConfArcSqlInstallAzMonitorAgent": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "effect-ConfArcSqlDataCollectionRuleMDSqlDCR": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "workspaceRegion-ConfArcSqlDataCollectionRuleMDSqlDCR": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Workspace region",
+          "description": "Region of the Log Analytics workspace destination for the Data Collection Rule.",
+          "strongType": "location"
+        }
+      },
+      "usrWorkspaceId-ConfArcSqlDataCollectionRuleMDSqlDCR": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Workspace Id",
+          "description": "Workspace Id of the Log Analytics workspace destination for the Data Collection Rule."
+        },
+        "defaultValue": ""
+      },
+      "BYODcr-ConfArcSqlDataCollectionRuleMDSqlDCR": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Bring your own DCR",
+          "description": "Enable or disable the use of a user-defined Data Collection Rule."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": false
+      },
+      "dcrResourceId-ConfArcSqlDataCollectionRuleMDSqlDCR": {
+        "type": "String",
+        "metadata": {
+          "displayName": "DCR Resource Id",
+          "description": "Resource Id of the user-defined Data Collection Rule."
+        },
+        "defaultValue": ""
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "CreateAssignBuiltInUserMI",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/09963c90-6ee7-4215-8d26-1cc660a1682f",
+        "parameters": {
+          "bringYourOwnUserAssignedManagedIdentity": {
+            "value": "[[parameters('BYOUsrAssginMI-CreateAssignBuiltInUserMI')]"
+          },
+          "userAssignedIdentityResourceId": {
+            "value": "[[parameters('UsrAssignIdResourceId-CreateAssignBuiltInUserMI')]"
+          },
+          "builtInIdentityResourceGroupLocation": {
+            "value": "[[parameters('BuiltInIdResourceGroupLocation-CreateAssignBuiltInUserMI')]"
+          },
+          "effect": {
+            "value": "[[parameters('Effect-CreateAssignBuiltInUserMI')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfSqlVMInstallAzMonitorAgent",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f91991d1-5383-4c95-8ee5-5ac423dd8bb1",
+        "parameters": {
+          "bringYourOwnUserAssignedManagedIdentity": {
+            "value": "[[parameters('BYOUsrAssginMI-ConfSqlVMInstallAzMonitorAgent')]"
+          },
+          "userAssignedIdentityResourceId": {
+            "value": "[[parameters('UsrAssignIdResourceId-ConfSqlVMInstallAzMonitorAgent')]"
+          },
+          "effect": {
+            "value": "[[parameters('Effect-ConfSqlVMInstallAzMonitorAgent')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfSqlVMInstallMDSQL",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ddca0ddc-4e9d-4bbb-92a1-f7c4dd7ef7ce",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect-ConfSqlVMInstallMDSQL')]"
+          },
+          "workspaceRegion": {
+            "value": "[[parameters('workspaceRegion-ConfSqlVMInstallMDSQL')]"
+          },
+          "userWorkspaceId": {
+            "value": "[[parameters('usrWorkspaceId-ConfSqlVMInstallMDSQL')]"
+          },
+          "bringYourOwnDcr": {
+            "value": "[[parameters('BYODcr-ConfSqlVMInstallMDSQL')]"
+          },
+          "dcrResourceId": {
+            "value": "[[parameters('dcrResourceId-ConfSqlVMInstallMDSQL')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfSqlVMInstallMDSQLDCRLAworkspace",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/04754ef9-9ae3-4477-bf17-86ef50026304",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect-ConfSqlVMInstallMDSQLDCRLAworkspace')]"
+          },
+          "userWorkspaceResourceId": {
+            "value": "[[parameters('usrWSRecourceId-ConfSqlVMInstallMDSQLDCRLAworkspace')]"
+          },
+          "workspaceRegion": {
+            "value": "[[parameters('workspaceRegion-ConfSqlVMInstallMDSQLDCRLAworkspace')]"
+          },
+          "userWorkspaceId": {
+            "value": "[[parameters('usrWorkspaceId-ConfSqlVMInstallMDSQLDCRLAworkspace')]"
+          },
+          "enableCollectionOfSqlQueriesForSecurityResearch": {
+            "value": "[[parameters('enableCollectionSqlQuries-ConfSqlVMInstallMDSQLDCRLAworkspace')]"
+          },
+          "bringYourOwnDcr": {
+            "value": "[[parameters('BYODcr-ConfSqlVMInstallMDSQLDCRLAworkspace')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfArcSqlInstallAzMonitorAgent",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3592ff98-9787-443a-af59-4505d0fe0786",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfArcSqlInstallAzMonitorAgent')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfArcSqlInstallMDSQL",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/65503269-6a54-4553-8a28-0065a8e6d929",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect-ConfArcSqlInstallMDSQL')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfArcSqlInstallMDSQLDCRLAworkspace",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/63d03cbd-47fd-4ee1-8a1c-9ddf07303de0",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect-ConfArcSqlInstallMDSQLDCRLAworkspace')]"
+          },
+          "userWorkspaceResourceId": {
+            "value": "[[parameters('usrWSRecourceId-ConfArcSqlInstallMDSQLDCRLAworkspace')]"
+          },
+          "workspaceRegion": {
+            "value": "[[parameters('workspaceRegion-ConfArcSqlInstallMDSQLDCRLAworkspace')]"
+          },
+          "userWorkspaceId": {
+            "value": "[[parameters('usrWorkspaceId-ConfArcSqlInstallMDSQLDCRLAworkspace')]"
+          },
+          "enableCollectionOfSqlQueriesForSecurityResearch": {
+            "value": "[[parameters('enableCollectionSqlQuries-ConfArcSqlInstallMDSQLDCRLAworkspace')]"
+          },
+          "bringYourOwnDcr": {
+            "value": "[[parameters('BYODcr-ConfArcSqlInstallMDSQLDCRLAworkspace')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfArcSqlDataCollectionRuleMDSqlDCR",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2227e1f1-23dd-4c3a-85a9-7024a401d8b2",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect-ConfArcSqlDataCollectionRuleMDSqlDCR')]"
+          },
+          "workspaceRegion": {
+            "value": "[[parameters('workspaceRegion-ConfArcSqlDataCollectionRuleMDSqlDCR')]"
+          },
+          "userWorkspaceId": {
+            "value": "[[parameters('usrWorkspaceId-ConfArcSqlDataCollectionRuleMDSqlDCR')]"
+          },
+          "bringYourOwnDcr": {
+            "value": "[[parameters('BYODcr-ConfArcSqlDataCollectionRuleMDSqlDCR')]"
+          },
+          "dcrResourceId": {
+            "value": "[[parameters('dcrResourceId-ConfArcSqlDataCollectionRuleMDSqlDCR')]"
+          }
+        },
+        "groupNames": []
+      }
+    ],
+    "policyDefinitionGroups": null
+  }
+}

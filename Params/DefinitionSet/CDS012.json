@@ -1,0 +1,64 @@
+{
+  "name": "CDS012-Auth-Access",
+  "type": "Microsoft.Authorization/policySetDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "policyType": "Custom",
+    "displayName": "CDS012-Auth-Access",
+    "description": "Authorized Access Initiative Policy",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SPC Common"
+    },
+    "parameters": {
+      "Effect-APIManagementServiceUseVnet": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "evaluatedSkuNames-APIManagementSKU": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Developer",
+          "Basic",
+          "Standard",
+          "Premium",
+          "Consumption"
+        ],
+        "defaultValue": [
+          "Developer",
+          "Premium"
+        ]
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "APIManagementServiceUseVnet",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ef619a2c-cc4d-4d03-b2ba-8c94a834d85b",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-APIManagementServiceUseVnet')]"
+          },
+          "evaluatedSkuNames": {
+            "value": "[[parameters('evaluatedSkuNames-APIManagementSKU')]"
+          }
+        },
+        "groupNames": []
+      }
+    ],
+    "policyDefinitionGroups": null
+  }
+}

@@ -1,0 +1,93 @@
+{
+    "name": "CDS025-Auth-Mgmt-User-Accounts",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+        "policyType": "Custom",
+        "displayName": "CDS025-Auth-Mgmt-User-Accounts",
+        "description": "When accessing Azure Resources, only approved applications and secure protocols are allowed according to the initiative policy.",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "SPC Common"
+        },
+        "parameters": {
+            "listOfAllowedLocations-AllowedLocation": {
+                "type": "Array",
+                "metadata": {
+                    "description": "The list of locations that can be specified when deploying resources.",
+                    "strongType": "location",
+                    "displayName": "Allowed locations"
+                }
+            },
+            "listOfAllowedLocations-AllowedLocationRG": {
+                "type": "Array",
+                "metadata": {
+                    "description": "The list of locations that resource groups can be created in.",
+                    "strongType": "location",
+                    "displayName": "Allowed locations"
+                }
+            },
+            "listOfAllowedLocations-AzureCosmosDBAllowedLocation": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "Allowed locations",
+                    "description": "The list of locations that can be specified when deploying Azure Cosmos DB resources.",
+                    "strongType": "location"
+                }
+            },
+            "policyEffect-AzureCosmosDBAllowedLocation": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Policy Effect",
+                    "description": "The desired effect of the policy."
+                },
+                "allowedValues": [
+                    "audit",
+                    "Audit",
+                    "deny",
+                    "Deny",
+                    "disabled",
+                    "Disabled"
+                ],
+                "defaultValue": "Deny"
+            }
+        },
+        "policyDefinitions": [
+            {
+                "policyDefinitionReferenceId": "AllowedLocation",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e56962a6-4747-49cd-b67b-bf8b01975c4c",
+                "parameters": {
+                    "listOfAllowedLocations": {
+                        "value": "[[parameters('listOfAllowedLocations-AllowedLocation')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "AllowedLocationRG",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e765b5de-1225-4ba3-bd56-1ac6695af988",
+                "parameters": {
+                    "listOfAllowedLocations": {
+                        "value": "[[parameters('listOfAllowedLocations-AllowedLocationRG')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "AzureCosmosDBAllowedLocation",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0473574d-2d43-4217-aefe-941fcdf7e684",
+                "parameters": {
+                    "listOfAllowedLocations": {
+                        "value": "[[parameters('listOfAllowedLocations-AzureCosmosDBAllowedLocation')]"
+                    },
+                    "policyEffect": {
+                        "value": "[[parameters('policyEffect-AzureCosmosDBAllowedLocation')]"
+                    }
+                },
+                "groupNames": []
+            }
+        ],
+        "policyDefinitionGroups": null
+    }
+}

@@ -1,0 +1,115 @@
+{
+  "name": "CDS005",
+  "type": "Microsoft.Authorization/policyAssignments",
+  "apiVersion": "2019-09-01",
+  "properties": {
+    "description": "Configure SQL VMs and Arc-enabled SQL servers to install",
+    "displayName": "[CDS005] Configure SQL VMs and Arc-enabled SQL servers to install",
+    "notScopes": [],
+    "parameters": {
+      "BYOUsrAssginMI-CreateAssignBuiltInUserMI": {
+        "value": false
+      },
+      "UsrAssignIdResourceId-CreateAssignBuiltInUserMI": {
+        "value": ""
+      },
+      "BuiltInIdResourceGroupLocation-CreateAssignBuiltInUserMI": {
+        "value": "koreaCentral"
+      },
+      "Effect-CreateAssignBuiltInUserMI": {
+        "value": "DeployIfNotExists"
+      },
+      "BYOUsrAssginMI-ConfSqlVMInstallAzMonitorAgent": {
+        "value": false
+      },
+      "UsrAssignIdResourceId-ConfSqlVMInstallAzMonitorAgent": {
+        "value": ""
+      },
+      "Effect-ConfSqlVMInstallAzMonitorAgent": {
+        "value": "DeployIfNotExists"
+      },
+      "effect-ConfSqlVMInstallMDSQL": {
+        "value": "DeployIfNotExists"
+      },
+      "workspaceRegion-ConfSqlVMInstallMDSQL": {
+        "value": ""
+      },
+      "usrWorkspaceId-ConfSqlVMInstallMDSQL": {
+        "value": ""
+      },
+      "BYODcr-ConfSqlVMInstallMDSQL": {
+        "value": false
+      },
+      "dcrResourceId-ConfSqlVMInstallMDSQL": {
+        "value": ""
+      },
+      "effect-ConfSqlVMInstallMDSQLDCRLAworkspace": {
+        "value": "DeployIfNotExists"
+      },
+      "usrWSRecourceId-ConfSqlVMInstallMDSQLDCRLAworkspace": {
+        "value": ""
+      },
+      "workspaceRegion-ConfSqlVMInstallMDSQLDCRLAworkspace": {
+        "value": ""
+      },
+      "usrWorkspaceId-ConfSqlVMInstallMDSQLDCRLAworkspace": {
+        "value": ""
+      },
+      "enableCollectionSqlQuries-ConfSqlVMInstallMDSQLDCRLAworkspace": {
+        "value": false
+      },
+      "BYODcr-ConfSqlVMInstallMDSQLDCRLAworkspace": {
+        "value": false
+      },
+      "Effect-ConfArcSqlInstallAzMonitorAgent": {
+        "value": "DeployIfNotExists"
+      },
+      "effect-ConfArcSqlInstallMDSQL": {
+        "value": "DeployIfNotExists"
+      },
+      "effect-ConfArcSqlInstallMDSQLDCRLAworkspace": {
+        "value": "DeployIfNotExists"
+      },
+      "usrWSRecourceId-ConfArcSqlInstallMDSQLDCRLAworkspace": {
+        "value": ""
+      },
+      "workspaceRegion-ConfArcSqlInstallMDSQLDCRLAworkspace": {
+        "value": ""
+      },
+      "usrWorkspaceId-ConfArcSqlInstallMDSQLDCRLAworkspace": {
+        "value": ""
+      },
+      "enableCollectionSqlQuries-ConfArcSqlInstallMDSQLDCRLAworkspace": {
+        "value": false
+      },
+      "BYODcr-ConfArcSqlInstallMDSQLDCRLAworkspace": {
+        "value": false
+      },
+      "effect-ConfArcSqlInstallAzMonitorAgent": {
+        "value": "DeployIfNotExists"
+      },
+      "effect-ConfArcSqlDataCollectionRuleMDSqlDCR": {
+        "value": "DeployIfNotExists"
+      },
+      "workspaceRegion-ConfArcSqlDataCollectionRuleMDSqlDCR": {
+        "value": ""
+      },
+      "usrWorkspaceId-ConfArcSqlDataCollectionRuleMDSqlDCR": {
+        "value": ""
+      },
+      "BYODcr-ConfArcSqlDataCollectionRuleMDSqlDCR": {
+        "value": false
+      },
+      "dcrResourceId-ConfArcSqlDataCollectionRuleMDSqlDCR": {
+        "value": ""
+      }
+    },
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/CDS005",
+    "scope": null,
+    "enforcementMode": "Default"
+  },
+  "location": "koreaCentral",
+  "identity": {
+    "type": "SystemAssigned"
+  }
+}

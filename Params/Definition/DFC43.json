@@ -1,0 +1,34 @@
+{
+  "name": "DFC43",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "displayName": "Deny Private Endpoint Cross Subscription Creation",
+    "policyType": "Custom",
+    "mode": "All",
+    "description": "Cross Subscription에서 Private Endpoint 생성관련 Deny 정책",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SPC Common"
+    },
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/privateEndpoints"
+          },
+          {
+            "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId",
+            "notContains": "[subscription().subscriptionId]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "deny"
+      }
+    }
+  }
+}

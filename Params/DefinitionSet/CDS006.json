@@ -1,0 +1,64 @@
+{
+  "name": "CDS006-Auth-Mgmt-User-Accounts",
+  "type": "Microsoft.Authorization/policySetDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "policyType": "Custom",
+    "displayName": "CDS006-Auth-Mgmt-User-Accounts",
+    "description": "An initiative policy that grants minimal permissions to accounts accessing Azure resources",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SPC Common"
+    },
+    "parameters": {
+      "Effect-RBACUsedKubernetesServices": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "Effect-AuditUsageCustomRBACRoles": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "RBACUsedKubernetesServices",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ac4a19c2-fa67-49b4-8ae5-0b2e78c49457",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-RBACUsedKubernetesServices')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "AuditUsageCustomRBACRoles",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a451c1ef-c6ca-483d-87ed-f49761e3ffb5",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-AuditUsageCustomRBACRoles')]"
+          }
+        },
+        "groupNames": []
+      }
+    ],
+    "policyDefinitionGroups": null
+  }
+}

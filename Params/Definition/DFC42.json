@@ -1,0 +1,53 @@
+{
+  "name": "DFC42",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "displayName": "Azure Databricks Workspaces should use private link",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Azure Private Link lets you connect your virtual networks to Azure services without a public IP address at the source or destination. The Private Link platform handles the connectivity between the consumer and services over the Azure backbone network. By mapping private endpoints to Azure Databricks workspaces, you can reduce data leakage risks. Learn more about private links at: https://aka.ms/adbpe.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SPC Common"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Databricks/workspaces"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Databricks/workspaces/privateEndpointConnections[*]",
+              "where": {
+                "field": "Microsoft.Databricks/workspaces/privateEndpointConnections[*].privateLinkServiceConnectionState.status",
+                "equals": "Approved"
+              }
+            },
+            "less": 1
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

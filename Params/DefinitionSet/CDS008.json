@@ -1,0 +1,124 @@
+{
+    "name": "CDS008-Auth-Mgmt-User-Auth",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+      "policyType": "Custom",
+      "displayName": "CDS008-Auth-Mgmt-User-Auth",
+      "description": "An initiative policy that restricts the use of enhanced authentication, such as login attempt limits and alerts for abnormal login attempts, when accessing Azure resources.",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "SPC Common"
+      },
+      "parameters": {
+        "Effect-AccountsOwnerPermissionMFA": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "Effect-AccountReadPermissionMFA": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "Effect-AccountWritePermissionMFA": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "Effect-AuthLinuxVMSSHKey": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of this policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "IncludeArcMachine-AuthLinuxVMSSHKey": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Include Arc connected servers",
+            "description": "By selecting this option, you agree to be charged monthly per Arc connected machine.",
+            "portalReview": "true"
+          },
+          "allowedValues": [
+            "true",
+            "false"
+          ],
+          "defaultValue": "false"
+        }
+      },
+      "policyDefinitions": [
+        {
+          "policyDefinitionReferenceId": "AccountsOwnerPermissionMFA",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e3e008c3-56b9-4133-8fd7-d3347377402a",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-AccountsOwnerPermissionMFA')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "AccountReadPermissionMFA",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/931e118d-50a1-4457-a5e4-78550e086c52",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-AccountReadPermissionMFA')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "AccountWritePermissionMFA",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/931e118d-50a1-4457-a5e4-78550e086c52",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-AccountWritePermissionMFA')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "AuthLinuxVMSSHKey",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/630c64f9-8b6b-4c64-b511-6544ceff6fd6",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-AuthLinuxVMSSHKey')]"
+            },
+            "IncludeArcMachines": {
+              "value": "[[parameters('IncludeArcMachine-AuthLinuxVMSSHKey')]"
+            }
+          },
+          "groupNames": []
+        }
+      ],
+      "policyDefinitionGroups": null
+    }
+  }

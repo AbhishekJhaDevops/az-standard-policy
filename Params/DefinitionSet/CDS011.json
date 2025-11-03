@@ -1,0 +1,262 @@
+{
+    "name": "CDS011-Logging-Diagonostic",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+        "policyType": "Custom",
+        "displayName": "CDS011-Logging-Diagonostic",
+        "description": "Industry-wide logging and risk detection initiative policy",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "SPC Common"
+        },
+        "parameters": {
+            "Effect-ArcEnableKubernetesClusterMicrosoftDefenderForCloud": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "Effect-AzureDefenderForSQLEnabled": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "Effect-AzureDefenderForResourceGroupEnabled": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "Effect-AzureDefenderForServersEnabled": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "Effect-AzureDefenderForSQLEnabledForUnprotectedMySQL": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "Effect-AzureDefenderForSQLEnabledForUnprotectedPostgreSQLFlexibleServers": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "Effect-AzureDefenderForSQLEnabledForUnprotectedSQLManagedInstance": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "Effect-AKSClusterDefenderProfileEnabled": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Disabled"
+                ],
+                "defaultValue": "Audit"
+            },
+            "Effect-MicrosoftDefenderForContainersEnabled": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "Effect-MicrosoftDefenderForSQLEnabledForunprotectedSynapseworkspaces": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "Effect-SQLServerAuditingToStorageAccount": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            }
+        },
+        "policyDefinitions": [
+            {
+                "policyDefinitionReferenceId": "ArcEnableKubernetesClusterMicrosoftDefenderForCloud",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/8dfab9c4-fe7b-49ad-85e4-1e9be085358f",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-ArcEnableKubernetesClusterMicrosoftDefenderForCloud')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "AzureDefenderForSQLEnabled",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7fe3b40f-802b-4cdd-8bd4-fd799c948cc2",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-AzureDefenderForSQLEnabled')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "AzureDefenderForResourceGroupEnabled",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c3d20c29-b36d-48fe-808b-99a87530ad99",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-AzureDefenderForResourceGroupEnabled')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "AzureDefenderForServersEnabled",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4da35fc9-c9e7-4960-aec9-797fe7d9051d",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-AzureDefenderForServersEnabled')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "AzureDefenderForSQLEnabledForUnprotectedMySQL",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3bc8a0d5-38e0-4a3d-a657-2cb64468fc34",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-AzureDefenderForSQLEnabledForUnprotectedMySQL')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "AzureDefenderForSQLEnabledForUnprotectedPostgreSQLFlexibleServers",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d38668f5-d155-42c7-ab3d-9b57b50f8fbf",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-AzureDefenderForSQLEnabledForUnprotectedPostgreSQLFlexibleServers')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "AzureDefenderForSQLEnabledForUnprotectedSQLManagedInstance",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/abfb7388-5bf4-4ad7-ba99-2cd2f41cebb9",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-AzureDefenderForSQLEnabledForUnprotectedSQLManagedInstance')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "AKSClusterDefenderProfileEnabled",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a1840de2-8088-4ea8-b153-b4c723e9cb01",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-AKSClusterDefenderProfileEnabled')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "MicrosoftDefenderForContainersEnabled",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1c988dd6-ade4-430f-a608-2a3e5b0a6d38",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-MicrosoftDefenderForContainersEnabled')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "MicrosoftDefenderForSQLEnabledForunprotectedSynapseworkspaces",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d31e5c31-63b2-4f12-887b-e49456834fa1",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-MicrosoftDefenderForSQLEnabledForunprotectedSynapseworkspaces')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "SQLServerAuditingToStorageAccount",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/89099bee-89e0-4b26-a5f4-165451757743",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-SQLServerAuditingToStorageAccount')]"
+                    }
+                },
+                "groupNames": []
+            }
+        ],
+        "policyDefinitionGroups": null
+    }
+}

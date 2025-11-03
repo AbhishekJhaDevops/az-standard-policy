@@ -1,0 +1,369 @@
+{
+  "name": "CDS003",
+  "type": "Microsoft.Authorization/policySetDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "policyType": "Custom",
+    "displayName": "[CDS003] Defeder for Cloud Container and Server",
+    "description": "This initiative policy definition is used to deploy the policies for the Cloud Container and Server",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SPC Common"
+    },
+    "parameters": {
+      "Effect-ConfAKSClustersEnableDedender": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"  
+      },
+      "lawResourceId-ConfAKSClustersEnableDedender": {
+        "type": "String",
+        "metadata": {
+          "displayName": "LogAnalyticsWorkspaceResourceId",
+          "description": "Optional Log Analytics workspace resource id. If provided, will be used as part of the feature configuration. Otherwise, default workspace will be provisioned. Value format should be '/subscriptions/XXX/resourcegroups/XXX/providers/Microsoft.OperationalInsights/workspaces/XXX'.",
+          "strongType": "Microsoft.OperationalInsights/workspaces",
+          "assignPermissions": true
+        },
+        "defaultValue": ""
+      },
+      "Effect-ConfAzArcAKSClusterMDCextention": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "lawResourceId-ConfAzArcAKSClusterMDCextention": {
+        "type": "String",
+        "metadata": {
+          "displayName": "LogAnalyticsWorkspaceResourceId",
+          "description": "Optional Log Analytics workspace resource id. If provided, will be used as part of the feature configuration. Otherwise, default workspace will be provisioned. Value format should be '/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/{resourcegroup}/providers/Microsoft.OperationalInsights/workspaces/{logAnalyticsWorkspaceName}'",
+          "strongType": "Microsoft.OperationalInsights/workspaces",
+          "assignPermissions": true
+        },
+        "defaultValue": ""
+      },
+      "excludedDistributions-ConfAzArcAKSClusterMDCextention": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ExcludedDistributions",
+          "description": "Distributions to be excluded from the policy"
+        },
+        "defaultValue": [
+          "aks",
+          "aks_management",
+          "eks",
+          "gke"
+        ]
+      },
+      "Effect-ConfAzArcAKSClusterAzPolicyExtention": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "Effect-DeployAzPolicyAddonAKSCluster": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "Effect-DepolyMDEagentWinVM": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "PublisherExclude-DepolyMDEagentWinVM": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Optional: List Of Image Publishers to exclude",
+          "description": "List of Windows image Publishers to exclude from MDE provision"
+        },
+        "defaultValue": []
+      },
+      "ImageIdExclude-DepolyMDEagentWinVM": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Optional: List of virtual machine images to exclude",
+          "description": "Example value: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoImage'"
+        },
+        "defaultValue": []
+      },
+      "Effect-DepolyMDEagentLinuxVM": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "PublisherExclude-DepolyMDEagentLinuxVM": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Optional: List Of Image Publishers to exclude",
+        "description": "List of Linux image Publishers to exclude from MDE provision"
+        },
+        "defaultValue": []
+      },
+      "ImageIdExclude-DepolyMDEagentLinuxVM": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Optional: List of virtual machine images to exclude",
+          "description": "Example value: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoImage'"
+        },
+        "defaultValue": []
+      },
+      "Effect-ConfIntegrationMDEMDC-WDATP": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "Effect-SetupSubscriptiontoVulnerabilityAssessSolution": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "SelectedProvider-SetupSubscriptiontoVulnerabilityAssessSolution": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Slected Vulnerability Assessment provider",
+          "description": "Select the vulnerability assessment solution to provision to machines."
+        },
+        "allowedValues": [
+          "MdeTvm"
+        ],
+        "defaultValue": "MdeTvm"
+      },
+      "IncludeArcMachines-WinVmMdUpdateSingnatureWitinDay": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Include Arc connected servers",
+          "description": "By selecting this option, you agree to be charged monthly per Arc connected machine."
+        },
+        "allowedValues": [
+          "True",
+          "False"
+        ],
+        "defaultValue": "False"
+      },
+      "effect-WinVmMdUpdateSingnatureWitinDay": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of this policy"
+        },
+       "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      },
+      "effect-AzDefenderAppShouldBeEnabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of this policy"
+        },
+       "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "ConfAKSClustersEnableDedender",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/64def556-fbad-4622-930e-72d1d5589bf5",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfAKSClustersEnableDedender')]"
+          },
+          "logAnalyticsWorkspaceResourceId": {
+            "value": "[[parameters('lawResourceId-ConfAKSClustersEnableDedender')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfAzArcAKSClusterMDCextention",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/708b60a6-d253-4fe0-9114-4be4c00f012c",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfAzArcAKSClusterMDCextention')]"
+          },
+          "logAnalyticsWorkspaceResourceId": {
+            "value": "[[parameters('lawResourceId-ConfAzArcAKSClusterMDCextention')]"
+          },
+          "excludedDistributions": {
+            "value": "[[parameters('excludedDistributions-ConfAzArcAKSClusterMDCextention')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfAzArcAKSClusterAzPolicyExtention",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0adc5395-9169-4b9b-8687-af838d69410a",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfAzArcAKSClusterAzPolicyExtention')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DeployAzPolicyAddonAKSCluster",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a8eff44f-8c92-45c3-a3fb-9880802d67a7",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-DeployAzPolicyAddonAKSCluster')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DepolyMDEagentWinVM",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1ec9c2c2-6d64-656d-6465-3ec3309b8579",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-DepolyMDEagentWinVM')]"
+          },
+          "PublishersToExclude": {
+            "value": "[[parameters('PublisherExclude-DepolyMDEagentWinVM')]"
+          },
+          "ImageIdsToExclude": {
+            "value": "[[parameters('ImageIdExclude-DepolyMDEagentWinVM')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DepolyMDEagentLinuxVM",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d30025d0-6d64-656d-6465-67688881b632",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-DepolyMDEagentLinuxVM')]"
+          },
+          "PublishersToExclude": {
+            "value": "[[parameters('PublisherExclude-DepolyMDEagentLinuxVM')]"
+          },
+          "ImageIdsToExclude": {
+            "value": "[[parameters('ImageIdExclude-DepolyMDEagentLinuxVM')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfIntegrationMDEMDC-WDATP",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/da56d295-2889-41ce-a4cd-6f50fb93aa68",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfIntegrationMDEMDC-WDATP')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "SetupSubscriptiontoVulnerabilityAssessSolution",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/766e621d-ba95-4e43-a6f2-e945db3d7888",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-SetupSubscriptiontoVulnerabilityAssessSolution')]"
+          },
+          "selectedProvider": {
+            "value": "[[parameters('SelectedProvider-SetupSubscriptiontoVulnerabilityAssessSolution')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DepolyWinGuestConfExtentionWinVM",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/385f5831-96d4-41db-9a3c-cd3af78aaae6",
+        "parameters":{},
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DepolyLinuxGuestConfExtentionWinVM",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/331e8ea8-378a-410f-a2e5-ae22f38bb0da",
+        "parameters":{},
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "WinVmMdUpdateSingnatureWitinDay",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/DFC28",
+        "parameters": {
+          "IncludeArcMachines": {
+            "value": "[[parameters('IncludeArcMachines-WinVmMdUpdateSingnatureWitinDay')]"
+          },
+          "effect": {
+            "value": "[[parameters('effect-WinVmMdUpdateSingnatureWitinDay')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "AzDefenderAppShouldBeEnabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/DFC38",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect-AzDefenderAppShouldBeEnabled')]"
+          }
+        },
+        "groupNames": []
+      } 
+    ],
+    "policyDefinitionGroups": null
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "name": "DFC71",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "displayName": "App Service apps should use a virtual network service endpoint",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Use virtual network service endpoints to restrict access to your app from selected subnets from an Azure virtual network. To learn more about App Service service endpoints, visit https://aka.ms/appservice-vnet-service-endpoint.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SPC Common"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          },
+          {
+            "field": "kind",
+            "notContains": "functionapp"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Web/sites/virtualNetworkConnections",
+          "existenceCondition": {
+            "field": "Microsoft.Web/sites/virtualnetworkconnections/vnetResourceId",
+            "exists": "true"
+          }
+        }
+      }
+    }
+  }
+}

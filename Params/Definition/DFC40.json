@@ -1,0 +1,53 @@
+{
+  "name": "DFC40",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "displayName": "Management ports should be closed on your virtual machines",
+    "policyType": "Custom",
+    "mode": "All",
+    "description": "Management Port 오픈 여부 탐지",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SPC Common"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.ClassicCompute/virtualMachines"
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Security/assessments",
+          "name": "bc303248-3d14-44c2-96a0-55f5c326b5fe",
+          "existenceCondition": {
+            "field": "Microsoft.Security/assessments/status.code",
+            "in": [
+              "NotApplicable",
+              "Healthy"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

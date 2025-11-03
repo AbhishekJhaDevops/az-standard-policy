@@ -1,0 +1,94 @@
+{
+  "name": "CDS004",
+  "type": "Microsoft.Authorization/policyAssignments",
+  "apiVersion": "2019-09-01",
+  "properties": {
+    "description": "Configure SQL VMs and Arc-enabled SQL servers to install Microsoft Defender for SQL and AMA with user-defined LA Workspace",
+    "displayName": "[CDS004] Configure Microsoft Defender for Cloud Plans",
+    "notScopes": [],
+    "parameters": {
+      "Effect-ConfAzDefenderAppSerivceEnabled": {
+        "value": "DeployIfNotExists"
+      },
+      "Effect-ConfAzDefenderSQLEnabled": {
+        "value": "DeployIfNotExists"
+      },
+      "Effect-ConfAzDefenderOpenSourceDBEnabled": {
+        "value": "DeployIfNotExists"
+      },
+      "Effect-ConfAzDefenderSQLMachineEnabled": {
+        "value": "DeployIfNotExists"
+      },
+      "Effect-ConfMSDefenderCSPMPlan": {
+        "value": "DeployIfNotExists"
+      },
+      "DataDiscovery-ConfMSDefenderCSPMPlan": {
+        "value": "true"
+      },
+      "ACRvulnerability-ConfMSDefenderCSPMPlan": {
+        "value": "true"
+      },
+      "AgentlessK8S-ConfMSDefenderCSPMPlan": {
+        "value": "true"
+      },
+      "AgentlessVMScan-ConfMSDefenderCSPMPlan": {
+        "value": "true"
+      },
+      "EntraMgmt-ConfMSDefenderCSPMPlan": {
+        "value": "true"
+      },
+      "Effect-ConfMSDefenderContainerPlan": {
+        "value": "DeployIfNotExists"
+      },
+      "ACRvulnerability-ConfMSDefenderContainerPlan": {
+        "value": "true"
+      },
+      "Effect-ConfMSDefenderKeyVaultPlan": {
+        "value": "DeployIfNotExists"
+      },
+      "SubPlan-ConfMSDefenderKeyVaultPlan": {
+        "value": "PerTransaction"
+      },
+      "Effect-ConfMSDefenderServerPlan": {
+        "value": "DeployIfNotExists"
+      },
+      "SubPlan-ConfMSDefenderServerPlan": {
+        "value": "P2"
+      },
+      "AgentlessVMScan-ConfMSDefenderServerPlan": {
+        "value": "true"
+      },
+      "MdeSubscription-ConfMSDefenderServerPlan": {
+        "value": "false"
+      },
+      "Effect-ConfMSDefenderStorageEnable": {
+        "value": "DeployIfNotExists"
+      },
+      "UpMalwareScan-ConfMSDefenderStorageEnable": {
+        "value": "true"
+      },
+      "GBMonthStgAccount-ConfMSDefenderStorageEnable": {
+        "value": 5000
+      },
+      "DataDiscovery-ConfMSDefenderStorageEnable": {
+        "value": "true"
+      },
+      "effect-MsDefenderAzCosmosDbEnabled": {
+        "value": "AuditIfNotExists"
+      },
+      "effect-MDSqlUnprotectedAzSqlServers": {
+        "value": "AuditIfNotExists"
+      },
+      "effect-AzDefenderSqlMachinesEnabled": {
+        "value": "AuditIfNotExists"
+      }
+    },
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/CDS004",
+    "scope": null,
+    "enforcementMode": "Default"
+  },
+  "location": "koreaCentral",
+  "identity": {
+    "type": "SystemAssigned"
+  }
+}

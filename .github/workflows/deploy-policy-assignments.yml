@@ -1,0 +1,257 @@
+# .github/workflows/deploy-policy-assignments.yml
+name: Deploy Azure Policy Assignments
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment Environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+        - dev
+        - test
+        - prod
+      target_management_group_id:
+        description: 'Target Management Group ID for Assignment'
+        required: true
+        type: string
+      source_management_group_id:
+        description: 'Source Management Group ID (where policies are defined)'
+        required: false
+        type: string
+      assignment_type:
+        description: 'Assignment Type'
+        required: true
+        default: 'custom'
+        type: choice
+        options:
+        - custom
+        - builtin
+        - both
+      assignments_to_deploy:
+        description: 'Assignments to deploy (comma-separated, e.g., CDS001,CDS002 or "all" for all)'
+        required: true
+        default: 'all'
+        type: string
+
+  push:
+    branches:
+      - main
+    paths:
+      - 'AzurePolicyV2/policyAssignment.bicep'
+      - 'AzurePolicyV2/Params/Assignment/**'
+
+env:
+  AZURE_RESOURCE_MANAGER_CONNECTION_NAME: ${{ secrets.AZURE_SERVICE_CONNECTION }}
+  MANAGEMENT_GROUP_PREFIX: '/providers/Microsoft.Management/managementGroups/'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Validate Bicep Templates
+        run: |
+          az bicep build --file AzurePolicyV2/policyAssignment.bicep
+          echo "✅ Bicep template validation successful"
+
+      - name: Validate Policy Definitions Exist
+        run: |
+          TARGET_MGMT_GROUP_ID="${{ github.event.inputs.target_management_group_id }}"
+          SOURCE_MGMT_GROUP_ID="${{ github.event.inputs.source_management_group_id || github.event.inputs.target_management_group_id }}"
+          
+          echo "🔍 Checking policy definitions availability..."
+          
+          if [[ "${{ github.event.inputs.assignment_type }}" == "custom" || "${{ github.event.inputs.assignment_type }}" == "both" ]]; then
+            CUSTOM_POLICIES=$(az policy definition list --management-group $SOURCE_MGMT_GROUP_ID --query "[?policyType=='Custom'].name" --output tsv)
+            CUSTOM_SETS=$(az policy set-definition list --management-group $SOURCE_MGMT_GROUP_ID --query "[?policyType=='Custom'].name" --output tsv)
+            
+            if [[ -z "$CUSTOM_POLICIES" && -z "$CUSTOM_SETS" ]]; then
+              echo "⚠️ Warning: No custom policies or policy sets found in source management group."
+            else
+              echo "✅ Found custom policies and/or policy sets"
+            fi
+          fi
+
+  deploy-custom-assignments:
+    if: ${{ github.event.inputs.assignment_type == 'custom' || github.event.inputs.assignment_type == 'both' }}
+    needs: validate
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'dev' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set Variables
+        run: |
+          TARGET_MGMT_GROUP_ID="${{ github.event.inputs.target_management_group_id }}"
+          SOURCE_MGMT_GROUP_ID="${{ github.event.inputs.source_management_group_id || github.event.inputs.target_management_group_id }}"
+          echo "TARGET_MANAGEMENT_GROUP_SCOPE=${{ env.MANAGEMENT_GROUP_PREFIX }}${TARGET_MGMT_GROUP_ID}" >> $GITHUB_ENV
+          echo "SOURCE_MANAGEMENT_GROUP_SCOPE=${{ env.MANAGEMENT_GROUP_PREFIX }}${SOURCE_MGMT_GROUP_ID}" >> $GITHUB_ENV
+
+      - name: Generate Dynamic Parameter File for Custom Assignments
+        run: |
+          cd AzurePolicyV2/Params/Assignment
+          ASSIGNMENTS_TO_DEPLOY="${{ github.event.inputs.assignments_to_deploy || 'all' }}"
+          
+          # Create dynamic bicepparam file for custom assignments
+          cat > dynamic-custom-assignments.bicepparam << EOF
+          using '../../policyAssignment.bicep'
+          
+          param managementGroupName = '${{ env.SOURCE_MANAGEMENT_GROUP_SCOPE }}/providers/Microsoft.Authorization/policySetDefinitions/'
+          param PolicyAssignmentArray = [
+          EOF
+          
+          if [[ "$ASSIGNMENTS_TO_DEPLOY" == "all" ]]; then
+            # Deploy all custom assignments
+            first=true
+            for file in CDS*.json; do
+              if [[ -f "$file" ]]; then
+                if [[ "$first" == "false" ]]; then
+                  echo "," >> dynamic-custom-assignments.bicepparam
+                fi
+                echo -n "  { libDefinition: loadJsonContent('$file') }" >> dynamic-custom-assignments.bicepparam
+                first=false
+              fi
+            done
+          else
+            # Deploy specific assignments
+            IFS=',' read -ra ASSIGNMENTS_ARRAY <<< "$ASSIGNMENTS_TO_DEPLOY"
+            first=true
+            for assignment in "${ASSIGNMENTS_ARRAY[@]}"; do
+              assignment=$(echo "$assignment" | xargs) # trim whitespace
+              if [[ -f "${assignment}.json" ]]; then
+                if [[ "$first" == "false" ]]; then
+                  echo "," >> dynamic-custom-assignments.bicepparam
+                fi
+                echo -n "  { libDefinition: loadJsonContent('${assignment}.json') }" >> dynamic-custom-assignments.bicepparam
+                first=false
+              else
+                echo "⚠️ Warning: ${assignment}.json not found"
+              fi
+            done
+          fi
+          
+          echo "" >> dynamic-custom-assignments.bicepparam
+          echo "]" >> dynamic-custom-assignments.bicepparam
+          
+          echo "📄 Generated parameter file:"
+          cat dynamic-custom-assignments.bicepparam
+
+      - name: Deploy Custom Policy Assignments
+        run: |
+          az deployment mg create \
+            --management-group-id ${{ github.event.inputs.target_management_group_id }} \
+            --template-file AzurePolicyV2/policyAssignment.bicep \
+            --parameters AzurePolicyV2/Params/Assignment/dynamic-custom-assignments.bicepparam \
+            --name "custom-policy-assignments-$(date +%Y%m%d-%H%M%S)" \
+            --location "East US"
+
+  deploy-builtin-assignments:
+    if: ${{ github.event.inputs.assignment_type == 'builtin' || github.event.inputs.assignment_type == 'both' }}
+    needs: validate
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'dev' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set Variables
+        run: |
+          TARGET_MGMT_GROUP_ID="${{ github.event.inputs.target_management_group_id }}"
+          echo "TARGET_MANAGEMENT_GROUP_SCOPE=${{ env.MANAGEMENT_GROUP_PREFIX }}${TARGET_MGMT_GROUP_ID}" >> $GITHUB_ENV
+
+      - name: Generate Dynamic Parameter File for Built-in Assignments
+        run: |
+          cd AzurePolicyV2/Params/Assignment
+          ASSIGNMENTS_TO_DEPLOY="${{ github.event.inputs.assignments_to_deploy || 'all' }}"
+          
+          # Create dynamic bicepparam file for built-in assignments
+          cat > dynamic-builtin-assignments.bicepparam << EOF
+          using '../../policyAssignment.bicep'
+          
+          param managementGroupName = ''
+          param PolicyAssignmentArray = [
+          EOF
+          
+          if [[ "$ASSIGNMENTS_TO_DEPLOY" == "all" ]]; then
+            # Deploy all built-in assignments
+            first=true
+            for file in BD*.json; do
+              if [[ -f "$file" ]]; then
+                if [[ "$first" == "false" ]]; then
+                  echo "," >> dynamic-builtin-assignments.bicepparam
+                fi
+                echo -n "  { libDefinition: loadJsonContent('$file') }" >> dynamic-builtin-assignments.bicepparam
+                first=false
+              fi
+            done
+          else
+            # Deploy specific assignments
+            IFS=',' read -ra ASSIGNMENTS_ARRAY <<< "$ASSIGNMENTS_TO_DEPLOY"
+            first=true
+            for assignment in "${ASSIGNMENTS_ARRAY[@]}"; do
+              assignment=$(echo "$assignment" | xargs) # trim whitespace
+              if [[ -f "${assignment}.json" ]]; then
+                if [[ "$first" == "false" ]]; then
+                  echo "," >> dynamic-builtin-assignments.bicepparam
+                fi
+                echo -n "  { libDefinition: loadJsonContent('${assignment}.json') }" >> dynamic-builtin-assignments.bicepparam
+                first=false
+              else
+                echo "⚠️ Warning: ${assignment}.json not found"
+              fi
+            done
+          fi
+          
+          echo "" >> dynamic-builtin-assignments.bicepparam
+          echo "]" >> dynamic-builtin-assignments.bicepparam
+          
+          echo "📄 Generated parameter file:"
+          cat dynamic-builtin-assignments.bicepparam
+
+      - name: Deploy Built-in Policy Assignments
+        run: |
+          az deployment mg create \
+            --management-group-id ${{ github.event.inputs.target_management_group_id }} \
+            --template-file AzurePolicyV2/policyAssignment.bicep \
+            --parameters AzurePolicyV2/Params/Assignment/dynamic-builtin-assignments.bicepparam \
+            --name "builtin-policy-assignments-$(date +%Y%m%d-%H%M%S)" \
+            --location "East US"
+
+  verification:
+    needs: [deploy-custom-assignments, deploy-builtin-assignments]
+    if: always() && (needs.deploy-custom-assignments.result == 'success' || needs.deploy-builtin-assignments.result == 'success')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Verify Deployments
+        run: |
+          TARGET_MGMT_GROUP_ID="${{ github.event.inputs.target_management_group_id }}"
+          TARGET_SCOPE="${{ env.MANAGEMENT_GROUP_PREFIX }}${TARGET_MGMT_GROUP_ID}"
+          
+          echo "✅ Policy assignments deployed successfully to $TARGET_SCOPE"
+          az policy assignment list --scope $TARGET_SCOPE --query "[].{Name:name,DisplayName:displayName,PolicyDefinitionId:policyDefinitionId}" --output table

@@ -1,0 +1,614 @@
+{
+  "name": "CDS002",
+  "type": "Microsoft.Authorization/policySetDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "policyType": "Custom",
+    "displayName": "[CDS002] Azure Monitor Agent and Data Collection Rule",
+    "description": "Windows Virtual Machine에 Azure Monitor Agent를 설치하고 Collection Rule과 EndPoint를 설정하는 정책",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SPC Common"
+    },
+    "parameters": {
+      "Effect-WinVMSSAzMonitorAgentInstalled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy."
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      },
+      "scopeToSupportedImages-WinVMSSAzMonitorAgentInstalled": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Scope Policy to Azure Monitor Agent-Supported Operating Systems",
+          "description": "If set to true, the policy will apply only to virtual machine scale sets with supported operating systems. Otherwise, the policy will apply to all virtual machine scale set resources in the assignment scope. For supported operating systems, see https://aka.ms/AMAOverview."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": true
+      },
+      "listOfWindowsImageIdToInclude-WinVMSSAzMonitorAgentInstalled": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Additional Virtual Machine Images",
+          "description": "List of virtual machine images that have supported Windows OS to add to scope. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "defaultValue": []
+      },
+      "Effect-linVMSSAzMonitorAgentInstalled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy."
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      },
+      "scopeToSupportedImages-linVMSSAzMonitorAgentInstalled": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Scope Policy to Azure Monitor Agent-Supported Operating Systems",
+          "description": "If set to true, the policy will apply only to virtual machine scale sets with supported operating systems. Otherwise, the policy will apply to all virtual machine scale set resources in the assignment scope. For supported operating systems, see https://aka.ms/AMAOverview."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": true
+      },
+      "listOfLinuxImageIdToInclude-linVMSSAzMonitorAgentInstalled": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Additional Virtual Machine Images",
+          "description": "List of virtual machine images that have supported Windows OS to add to scope. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "defaultValue": []
+      },
+      "Effect-linVMAzMonitorAgentInstalled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy."
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      },
+      "scopeToSupportedImages-linVMAzMonitorAgentInstalled": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Scope Policy to Azure Monitor Agent-Supported Operating Systems",
+          "description": "If set to true, the policy will apply only to virtual machines with supported operating systems. Otherwise, the policy will apply to all virtual machine resources in the assignment scope. For supported operating systems, see https://aka.ms/AMAOverview."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": true
+      },
+      "listOfLinuxImageIdToInclude-linVMAzMonitorAgentInstalled": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Additional Virtual Machine Images",
+          "description": "List of virtual machine images that have supported Windows OS to add to scope. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "defaultValue": []
+      },
+      "Effect-ConfWinVMAzMonitorAgentSystemMI": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy."
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "scopeToSupportedImages-ConfWinVMAzMonitorAgentSystemMI": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Scope Policy to Azure Monitor Agent-Supported Operating Systems",
+          "description": "If set to true, the policy will apply only to virtual machines with supported operating systems. Otherwise, the policy will apply to all virtual machine resources in the assignment scope. For supported operating systems, see https://aka.ms/AMAOverview."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": true
+      },
+      "listOfWindowsImageIdToInclude-ConfWinVMAzMonitorAgentSystemMI": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Additional Virtual Machine Images",
+          "description": "List of virtual machine images that have supported Windows OS to add to scope. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "defaultValue": []
+      },
+      "Effect-ConfWinVMSSAzMonitorAgentSystemMI": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy."
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "BYOUserMI-ConfWinVMSSAzMonitorAgentSystemMI": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Bring Your Own User-Assigned Managed Identity",
+          "description": "If set to true, Azure Monitor Agent will use the user-assigned managed identity specified via the 'User-Assigned Managed Identity ...' parameters for authentication. Otherwise, Azure Monitor Agent will use the user-assigned managed identity /subscriptions/<subscription-id>/resourceGroups/built-in-identity-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/built-in-identity-<location> for authentication."
+        },
+        "allowedValues": [
+          false,
+          true
+        ]
+      },
+      "restrictBYOUserIdtoSub-ConfWinVMSSAzMonitorAgentSystemMI": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Restrict Bring Your Own User-Assigned Identity to Subscription",
+          "description": "Enable this to enforce the user assigned identity must exist in the same subscription as the virtual machine. When true, must provide User-Assigned Managed Identity Name and User-Assigned Managed Identity Resource Group Name parameters. When false, the parameter User Assigned Managed Identity Resource Id will be used instead."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": true
+      },
+      "userIdRecoureId-ConfWinVMSSAzMonitorAgentSystemMI": {
+        "type": "String",
+        "metadata": {
+          "displayName": "User-Assigned Managed Identity Resource ID",
+          "description": "The resource ID of the pre-created user-assigned managed identity. This parameter is only used when the restrict Bring Your Own User-Assigned Identity To Subscription parameter is false."
+        },
+        "defaultValue": ""
+      },
+      "userMIName-ConfWinVMSSAzMonitorAgentSystemMI": {
+        "type": "String",
+        "metadata": {
+          "displayName": "User-Assigned Managed Identity Name",
+          "description": "The name of the user-assigned managed identity which Azure Monitor Agent will use for authentication when 'Bring Your Own User-Assigned Managed Identity' is set to true."
+        },
+        "defaultValue": ""
+      },
+      "UserMIResourGroup-ConfWinVMSSAzMonitorAgentSystemMI": {
+        "type": "String",
+        "metadata": {
+          "displayName": "User-Assigned Managed Identity Resource Group",
+          "description": "The resource group of the user-assigned managed identity which Azure Monitor Agent will use for authentication when 'Bring Your Own User-Assigned Managed Identity' is set to true."
+        },
+        "defaultValue": ""
+      },
+      "scopeToSupportedImages-ConfWinVMSSAzMonitorAgentSystemMI": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Scope Policy to Azure Monitor Agent-Supported Operating Systems",
+          "description": "If set to true, the policy will apply only to virtual machine scale sets with supported operating systems. Otherwise, the policy will apply to all virtual machine scale set resources in the assignment scope. For supported operating systems, see https://aka.ms/AMAOverview."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": true
+      },
+      "listWinImage-ConfWinVMSSAzMonitorAgentSystemMI": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Additional Virtual Machine Images",
+          "description": "List of virtual machine images that have supported Windows OS to add to scope. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "defaultValue": []
+      },
+      "Effect-ConfWinArcMachineAzMonitorAgent": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy."
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "Effect-ConfWinMachineDataCollectionRuleorEndpoint": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy."
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "scopeToSupportedImages-ConfWinMachineDataCollectionRuleorEndpoint": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Scope Policy to Azure Monitor Agent-Supported Operating Systems",
+          "description": "If set to true, the policy will apply only to machines with AMA-supported operating systems. Otherwise, the policy will apply to all machines in the assignment scope. For supported operating systems, see https://aka.ms/AMAOverview."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": true
+      },
+      "listWinImage-ConfWinMachineDataCollectionRuleorEndpoint": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Additional Windows Machine Images",
+          "description": "List of machine images that have supported Windows OS to add to scope. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "defaultValue": []
+      },
+      "dcrResourceId-ConfWinMachineDataCollectionRuleorEndpoint": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Data Collection Rule Resource Id or Data Collection Endpoint Resource Id",
+          "description": "Resource Id of the Data Collection Rule or the Data Collection Endpoint to be applied on the Linux machines in scope.",
+          "portalReview": "true",
+          "assignPermissions": true
+        }
+      },
+      "resourceType-ConfWinMachineDataCollectionRuleorEndpoint": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Resource Type",
+          "description": "Either a Data Collection Rule (DCR) or a Data Collection Endpoint (DCE)",
+          "portalReview": "true"
+        },
+        "allowedValues": [
+          "Microsoft.Insights/dataCollectionRules",
+          "Microsoft.Insights/dataCollectionEndpoints"
+        ],
+        "defaultValue": "Microsoft.Insights/dataCollectionRules"
+      },
+      "Effect-ConflinvmssAzMonitorAgentManagdIdentityAuth": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy."
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "scopeToSupportedImages-ConflinvmssAzMonitorAgentManagdIdentityAuth": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Scope Policy to Azure Monitor Agent-Supported Operating Systems",
+          "description": "If set to true, the policy will apply only to virtual machine scale sets with supported operating systems. Otherwise, the policy will apply to all virtual machine scale set resources in the assignment scope. For supported operating systems, see https://aka.ms/AMAOverview."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": true
+      },
+      "listOfLinuxImageIdToInclude-ConflinvmssAzMonitorAgentManagdIdentityAuth": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Additional Windows Machine Images",
+          "description": "List of virtual machine images that have supported Linux OS to add to scope. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "defaultValue": []
+      },
+      "Effect-ConfLinVMDcrDce": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy."
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "scopeToSupportedImages-ConfLinVMDcrDce": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Scope Policy to Azure Monitor Agent-Supported Operating Systems",
+          "description": "If set to true, the policy will apply only to virtual machines with AMA-supported operating systems. Otherwise, the policy will apply to all virtual machine resources in the assignment scope. For supported operating systems, see https://aka.ms/AMAOverview."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": true
+      },
+      "listOfLinuxImageIdToInclude-ConfLinVMDcrDce": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Additional Windows Machine Images",
+          "description": "List of virtual machine images that have supported Linux OS to add to scope. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "defaultValue": []
+      },
+      "dcrResourceId-ConfLinVMDcrDce": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Data Collection Rule Resource Id or Data Collection Endpoint Resource Id",
+          "description": "Resource Id of the Data Collection Rule or the Data Collection Endpoint to be applied on the Linux machines in scope.",
+          "portalReview": "true",
+          "assignPermissions": true
+        }
+      },
+      "resourceType-ConfLinVMDcrDce": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Resource Type",
+          "description": "Either a Data Collection Rule (DCR) or a Data Collection Endpoint (DCE)",
+          "portalReview": "true"
+        },
+        "allowedValues": [
+          "Microsoft.Insights/dataCollectionRules",
+          "Microsoft.Insights/dataCollectionEndpoints"
+        ],
+        "defaultValue": "Microsoft.Insights/dataCollectionRules"
+      },
+      "Effect-ConfLinArcMachinesAzMonitorAgent": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy."
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "Effect-ConfLinVMAzMonitorSysAssnMngdIdentityAuth": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy."
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "scopeToSupportedImages-ConfLinVMAzMonitorSysAssnMngdIdentityAuth": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Scope Policy to Azure Monitor Agent-Supported Operating Systems",
+          "description": "If set to true, the policy will apply only to virtual machines with supported operating systems. Otherwise, the policy will apply to all virtual machine resources in the assignment scope. For supported operating systems, see https://aka.ms/AMAOverview."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": true
+      },
+      "listOfLinuxImageIdToInclude-ConfLinVMAzMonitorSysAssnMngdIdentityAuth": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Additional Virtual Machine Images",
+          "description": "List of virtual machine images that have supported Linux OS to add to scope. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "defaultValue": []
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "WinVMSSAzMonitorAgentInstalled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3672e6f7-a74d-4763-b138-fcf332042f8f",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-WinVMSSAzMonitorAgentInstalled')]"
+          },
+          "scopeToSupportedImages": {
+            "value": "[[parameters('scopeToSupportedImages-WinVMSSAzMonitorAgentInstalled')]"
+          },
+          "listOfWindowsImageIdToInclude": {
+            "value": "[[parameters('listOfWindowsImageIdToInclude-WinVMSSAzMonitorAgentInstalled')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "linVMSSAzMonitorAgentInstalled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/32ade945-311e-4249-b8a4-a549924234d7",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-linVMSSAzMonitorAgentInstalled')]"
+          },
+          "scopeToSupportedImages": {
+            "value": "[[parameters('scopeToSupportedImages-linVMSSAzMonitorAgentInstalled')]"
+          },
+          "listOfLinuxImageIdToInclude": {
+            "value": "[[parameters('listOfLinuxImageIdToInclude-linVMSSAzMonitorAgentInstalled')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "linVMAzMonitorAgentInstalled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1afdc4b6-581a-45fb-b630-f1e6051e3e7a",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-linVMAzMonitorAgentInstalled')]"
+          },
+          "scopeToSupportedImages": {
+            "value": "[[parameters('scopeToSupportedImages-linVMAzMonitorAgentInstalled')]"
+          },
+          "listOfLinuxImageIdToInclude": {
+            "value": "[[parameters('listOfLinuxImageIdToInclude-linVMAzMonitorAgentInstalled')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfWinVMAzMonitorAgentSystemMI",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ca817e41-e85a-4783-bc7f-dc532d36235e",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfWinVMAzMonitorAgentSystemMI')]"
+          },
+          "scopeToSupportedImages": {
+            "value": "[[parameters('scopeToSupportedImages-ConfWinVMAzMonitorAgentSystemMI')]"
+          },
+          "listOfWindowsImageIdToInclude": {
+            "value": "[[parameters('listOfWindowsImageIdToInclude-ConfWinVMAzMonitorAgentSystemMI')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfWinVMSSAzMonitorAgentSystemMI",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/98569e20-8f32-4f31-bf34-0e91590ae9d3",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfWinVMSSAzMonitorAgentSystemMI')]"
+          },
+          "bringYourOwnUserAssignedManagedIdentity": {
+            "value": "[[parameters('BYOUserMI-ConfWinVMSSAzMonitorAgentSystemMI')]"
+          },
+          "restrictBringYourOwnUserAssignedIdentityToSubscription": {
+            "value": "[[parameters('restrictBYOUserIdtoSub-ConfWinVMSSAzMonitorAgentSystemMI')]"
+          },
+          "userAssignedIdentityResourceId": {
+            "value": "[[parameters('userIdRecoureId-ConfWinVMSSAzMonitorAgentSystemMI')]"
+          },
+          "userAssignedManagedIdentityName": {
+            "value": "[[parameters('userMIName-ConfWinVMSSAzMonitorAgentSystemMI')]"
+          },
+          "userAssignedManagedIdentityResourceGroup": {
+            "value": "[[parameters('UserMIResourGroup-ConfWinVMSSAzMonitorAgentSystemMI')]"
+          },
+          "scopeToSupportedImages": {
+            "value": "[[parameters('scopeToSupportedImages-ConfWinVMSSAzMonitorAgentSystemMI')]"
+          },
+          "listOfWindowsImageIdToInclude": {
+            "value": "[[parameters('listWinImage-ConfWinVMSSAzMonitorAgentSystemMI')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfWinArcMachineAzMonitorAgent",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/94f686d6-9a24-4e19-91f1-de937dc171a4",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfWinArcMachineAzMonitorAgent')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfWinMachineDataCollectionRuleorEndpoint",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/eab1f514-22e3-42e3-9a1f-e1dc9199355c",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfWinMachineDataCollectionRuleorEndpoint')]"
+          },
+          "scopeToSupportedImages": {
+            "value": "[[parameters('scopeToSupportedImages-ConfWinMachineDataCollectionRuleorEndpoint')]"
+          },
+          "listOfWindowsImageIdToInclude": {
+            "value": "[[parameters('listWinImage-ConfWinMachineDataCollectionRuleorEndpoint')]"
+          },
+          "dcrResourceId": {
+            "value": "[[parameters('dcrResourceId-ConfWinMachineDataCollectionRuleorEndpoint')]"
+          },
+          "resourceType": {
+            "value": "[[parameters('resourceType-ConfWinMachineDataCollectionRuleorEndpoint')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConflinvmssAzMonitorAgentManagdIdentityAuth",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/56a3e4f8-649b-4fac-887e-5564d11e8d3a",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConflinvmssAzMonitorAgentManagdIdentityAuth')]"
+          },
+          "scopeToSupportedImages": {
+            "value": "[[parameters('scopeToSupportedImages-ConflinvmssAzMonitorAgentManagdIdentityAuth')]"
+          },
+          "listOfLinuxImageIdToInclude": {
+            "value": "[[parameters('listOfLinuxImageIdToInclude-ConflinvmssAzMonitorAgentManagdIdentityAuth')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfLinVMDcrDce",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/58e891b9-ce13-4ac3-86e4-ac3e1f20cb07",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfLinVMDcrDce')]"
+          },
+          "scopeToSupportedImages": {
+            "value": "[[parameters('scopeToSupportedImages-ConfLinVMDcrDce')]"
+          },
+          "listOfLinuxImageIdToInclude": {
+            "value": "[[parameters('listOfLinuxImageIdToInclude-ConfLinVMDcrDce')]"
+          },
+          "dcrResourceId": {
+            "value": "[[parameters('dcrResourceId-ConfLinVMDcrDce')]"
+          },
+          "resourceType": {
+            "value": "[[parameters('resourceType-ConfLinVMDcrDce')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfLinArcMachinesAzMonitorAgent",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/845857af-0333-4c5d-bbbc-6076697da122",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfLinArcMachinesAzMonitorAgent')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfLinVMAzMonitorSysAssnMngdIdentityAuth",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a4034bc6-ae50-406d-bf76-50f4ee5a7811",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfLinVMAzMonitorSysAssnMngdIdentityAuth')]"
+          },
+          "scopeToSupportedImages": {
+            "value": "[[parameters('scopeToSupportedImages-ConfLinVMAzMonitorSysAssnMngdIdentityAuth')]"
+          },
+          "listOfLinuxImageIdToInclude": {
+            "value": "[[parameters('listOfLinuxImageIdToInclude-ConfLinVMAzMonitorSysAssnMngdIdentityAuth')]"
+          }
+        },
+        "groupNames": []
+      }
+    ],
+    "policyDefinitionGroups": null
+  }
+}

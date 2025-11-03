@@ -1,0 +1,64 @@
+{
+    "name": "CDS020-Auth-Mgmt-User-Accounts",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+      "policyType": "Custom",
+      "displayName": "CDS020-Auth-Mgmt-User-Accounts",
+      "description": "When accessing Azure Resources, only approved applications and secure protocols are allowed according to the initiative policy.",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "SPC Common"
+      },
+      "parameters": {
+        "Effect-SQLAuditStorageAcc": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "Effect-AzureConImageVulnerabl": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        }
+      },
+      "policyDefinitions": [
+        {
+          "policyDefinitionReferenceId": "SQLAuditStorageAcc",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/89099bee-89e0-4b26-a5f4-165451757743",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-SQLAuditStorageAcc')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "AzureConImageVulnerabl",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/17f4b1cc-c55c-4d94-b1f9-2978f6ac2957",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-AzureConImageVulnerabl')]"
+            }
+          },
+          "groupNames": []
+        }
+      ],
+      "policyDefinitionGroups": null
+    }
+  }

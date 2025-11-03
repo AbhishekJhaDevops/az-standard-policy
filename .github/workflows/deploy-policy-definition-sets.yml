@@ -1,0 +1,154 @@
+# .github/workflows/deploy-policy-definition-sets.yml
+name: Deploy Azure Policy Definition Sets
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment Environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+        - dev
+        - test
+        - prod
+      management_group_id:
+        description: 'Management Group ID (e.g., mg-corp)'
+        required: true
+        type: string
+      policy_definition_prefix:
+        description: 'Custom Policy Definition Prefix'
+        required: true
+        default: 'DFC'
+        type: string
+      definition_sets_to_deploy:
+        description: 'Definition sets to deploy (comma-separated, e.g., CDS001,CDS002 or "all" for all)'
+        required: true
+        default: 'all'
+        type: string
+
+  push:
+    branches:
+      - main
+    paths:
+      - 'AzurePolicyV2/policyDefinitionSet.bicep'
+      - 'AzurePolicyV2/Params/DefinitionSet/**'
+
+env:
+  AZURE_RESOURCE_MANAGER_CONNECTION_NAME: ${{ secrets.AZURE_SERVICE_CONNECTION }}
+  MANAGEMENT_GROUP_PREFIX: '/providers/Microsoft.Management/managementGroups/'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Validate Bicep Templates
+        run: |
+          az bicep build --file AzurePolicyV2/policyDefinitionSet.bicep
+          echo "✅ Bicep template validation successful"
+
+      - name: Validate Custom Policies Exist
+        run: |
+          MGMT_GROUP_ID="${{ github.event.inputs.management_group_id || vars.DEFAULT_MANAGEMENT_GROUP_ID }}"
+          
+          echo "🔍 Checking if required custom policies exist..."
+          CUSTOM_POLICIES=$(az policy definition list --management-group $MGMT_GROUP_ID --query "[?policyType=='Custom'].name" --output tsv)
+          
+          if [[ -z "$CUSTOM_POLICIES" ]]; then
+            echo "⚠️ Warning: No custom policies found. Please deploy policy definitions first."
+            echo "Available built-in policies will still work for definition sets."
+          else
+            echo "✅ Found custom policies: $CUSTOM_POLICIES"
+          fi
+
+  deploy-definition-sets:
+    needs: validate
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'dev' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set Variables
+        run: |
+          MGMT_GROUP_ID="${{ github.event.inputs.management_group_id || vars.DEFAULT_MANAGEMENT_GROUP_ID }}"
+          echo "MANAGEMENT_GROUP_SCOPE=${{ env.MANAGEMENT_GROUP_PREFIX }}${MGMT_GROUP_ID}" >> $GITHUB_ENV
+          echo "POLICY_DEF_PREFIX=${{ github.event.inputs.policy_definition_prefix || 'DFC' }}" >> $GITHUB_ENV
+
+      - name: Generate Dynamic Parameter File
+        run: |
+          cd AzurePolicyV2/Params/DefinitionSet
+          SETS_TO_DEPLOY="${{ github.event.inputs.definition_sets_to_deploy || 'all' }}"
+          
+          # Create dynamic bicepparam file
+          cat > dynamic-definition-sets.bicepparam << EOF
+          using '../../policyDefinitionSet.bicep'
+          
+          param managementGroupName = '${{ env.MANAGEMENT_GROUP_SCOPE }}/providers/Microsoft.Authorization/policyDefinitions/'
+          param policyDefinitionPrefix = '${{ env.POLICY_DEF_PREFIX }}'
+          param PolicySetDefinitionsArray = [
+          EOF
+          
+          if [[ "$SETS_TO_DEPLOY" == "all" ]]; then
+            # Deploy all definition sets
+            first=true
+            for file in CDS*.json; do
+              if [[ -f "$file" ]]; then
+                if [[ "$first" == "false" ]]; then
+                  echo "," >> dynamic-definition-sets.bicepparam
+                fi
+                echo -n "  { libSetDefinition: loadJsonContent('$file') }" >> dynamic-definition-sets.bicepparam
+                first=false
+              fi
+            done
+          else
+            # Deploy specific definition sets
+            IFS=',' read -ra SETS_ARRAY <<< "$SETS_TO_DEPLOY"
+            first=true
+            for set in "${SETS_ARRAY[@]}"; do
+              set=$(echo "$set" | xargs) # trim whitespace
+              if [[ -f "${set}.json" ]]; then
+                if [[ "$first" == "false" ]]; then
+                  echo "," >> dynamic-definition-sets.bicepparam
+                fi
+                echo -n "  { libSetDefinition: loadJsonContent('${set}.json') }" >> dynamic-definition-sets.bicepparam
+                first=false
+              else
+                echo "⚠️ Warning: ${set}.json not found"
+              fi
+            done
+          fi
+          
+          echo "" >> dynamic-definition-sets.bicepparam
+          echo "]" >> dynamic-definition-sets.bicepparam
+          
+          echo "📄 Generated parameter file:"
+          cat dynamic-definition-sets.bicepparam
+
+      - name: Deploy Policy Definition Sets
+        run: |
+          az deployment mg create \
+            --management-group-id ${{ github.event.inputs.management_group_id || vars.DEFAULT_MANAGEMENT_GROUP_ID }} \
+            --template-file AzurePolicyV2/policyDefinitionSet.bicep \
+            --parameters AzurePolicyV2/Params/DefinitionSet/dynamic-definition-sets.bicepparam \
+            --name "policy-definition-sets-$(date +%Y%m%d-%H%M%S)" \
+            --location "East US"
+
+      - name: Verification
+        run: |
+          echo "✅ Policy definition sets deployed successfully to ${{ env.MANAGEMENT_GROUP_SCOPE }}"
+          az policy set-definition list --management-group ${{ github.event.inputs.management_group_id || vars.DEFAULT_MANAGEMENT_GROUP_ID }} --query "[?policyType=='Custom'].{Name:name,DisplayName:displayName}" --output table

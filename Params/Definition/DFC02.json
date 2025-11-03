@@ -1,0 +1,61 @@
+{
+    "name": "DFC02",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+      "policyType": "Custom",
+      "mode": "All",
+      "displayName": "Configure Storage Accounts to disable public network access",
+      "description": "A policy to disable Public Network Access in Storage Accounts to enhance security",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "SPC Common"
+      },
+      "version": "1.0.0",
+      "parameters": {
+        "effect": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Modify",
+            "Disabled"
+          ],
+          "defaultValue": "Modify"
+        }
+      },
+      "policyRule": {
+        "if": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.Storage/storageAccounts"
+            },
+            {
+              "field": "Microsoft.Storage/storageAccounts/publicNetworkAccess",
+              "notEquals": "Disabled"
+            }
+          ]
+        },
+        "then": {
+          "effect": "[parameters('effect')]",
+          "details": {
+            "conflictEffect": "audit",
+            "roleDefinitionIds": [
+              "/providers/Microsoft.Authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab"
+            ],
+            "operations": [
+              {
+                "operation": "addOrReplace",
+                "field": "Microsoft.Storage/storageAccounts/publicNetworkAccess",
+                "value": "Disabled"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }

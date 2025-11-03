@@ -1,0 +1,153 @@
+{
+    "name": "CDS023-Auth-Mgmt-User-Accounts",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+        "policyType": "Custom",
+        "displayName": "CDS023-Auth-Mgmt-User-Accounts",
+        "description": "When accessing Azure Resources, only approved applications and secure protocols should be used... initiative policy",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "SPC Common"
+        },
+        "parameters": {
+            "Effect-LogAnalyticsExtLinAzureArcMachines": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "Effect-LogAnalyticsExtWinAzureArcMachines": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "Effect-SQLServersStorageAccConfigured": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "Effect-APIMgmtSubsNotBeScopedAllAPIS": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Deny",
+                    "Disabled"
+                ],
+                "defaultValue": "Audit"
+            },
+            "Effect-AuditUsageCustomRBACRoles": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Disabled"
+                ],
+                "defaultValue": "Audit"
+            },
+            "Effect-RBACUsedKubernetesServices": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Disabled"
+                ],
+                "defaultValue": "Audit"
+            }
+        },
+        "policyDefinitions": [
+            {
+                "policyDefinitionReferenceId": "LogAnalyticsExtLinAzureArcMachines",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/842c54e8-c2f9-4d79-ae8d-38d8b8019373",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-LogAnalyticsExtLinAzureArcMachines')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "LogAnalyticsExtWinAzureArcMachines",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d69b1763-b96d-40b8-a2d9-ca31e9fd0d3e",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-LogAnalyticsExtWinAzureArcMachines')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "SQLServersStorageAccConfigured",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/89099bee-89e0-4b26-a5f4-165451757743",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-SQLServersStorageAccConfigured')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "APIMgmtSubsNotBeScopedAllAPIS",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3aa03346-d8c5-4994-a5bc-7652c2a2aef1",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-APIMgmtSubsNotBeScopedAllAPIS')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "AuditUsageCustomRBACRoles",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a451c1ef-c6ca-483d-87ed-f49761e3ffb5",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-AuditUsageCustomRBACRoles')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "RBACUsedKubernetesServices",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ac4a19c2-fa67-49b4-8ae5-0b2e78c49457",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-RBACUsedKubernetesServices')]"
+                    }
+                },
+                "groupNames": []
+            }
+        ],
+        "policyDefinitionGroups": null
+    }
+}

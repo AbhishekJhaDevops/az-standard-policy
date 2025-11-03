@@ -1,0 +1,87 @@
+{
+    "name": "CDS015-Auth-Mgmt-User-Accounts",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+      "policyType": "Custom",
+      "displayName": "CDS015-Auth-Mgmt-User-Accounts",
+      "description": "When accessing Azure Resources, only approved applications and secure protocols should be used... initiative policy",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "SPC Common"
+      },
+      "parameters": {
+        "Effect-RBACUsedAKS": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "Effect-AuditUsageCutomRBAC": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "Effect-APIMgmtSubsScopedAPIs": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Disabled",
+            "Deny"
+          ],
+          "defaultValue": "Audit"
+        }
+      },
+      "policyDefinitions": [
+        {
+          "policyDefinitionReferenceId": "RBACUsedAKS",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ac4a19c2-fa67-49b4-8ae5-0b2e78c49457",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-RBACUsedAKS')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "AuditUsageCutomRBAC",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a451c1ef-c6ca-483d-87ed-f49761e3ffb5",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-AuditUsageCutomRBAC')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "APIMgmtSubsScopedAPIs",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3aa03346-d8c5-4994-a5bc-7652c2a2aef1",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-APIMgmtSubsScopedAPIs')]"
+            }
+          },
+          "groupNames": []
+        }
+      ],
+      "policyDefinitionGroups": null
+    }
+  }

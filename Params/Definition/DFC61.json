@@ -1,0 +1,60 @@
+{
+  "name": "DFC61",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "displayName": "Container Apps environment should disable public network access",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Disable public network access to improve security by exposing the Container Apps environment through an internal load balancer. This removes the need for a public IP address and prevents internet access to all Container Apps within the environment.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SPC Common"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.App/managedEnvironments"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.App/managedEnvironments/vnetConfiguration",
+                "exists": false
+              },
+              {
+                "field": "Microsoft.App/managedEnvironments/vnetConfiguration.internal",
+                "exists": false
+              },
+              {
+                "field": "Microsoft.App/managedEnvironments/vnetConfiguration.internal",
+                "equals": false
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

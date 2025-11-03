@@ -1,0 +1,509 @@
+{
+    "name": "CDS024-Auth-Mgmt-User-Accounts",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+        "policyType": "Custom",
+        "displayName": "CDS024-Auth-Mgmt-User-Accounts",
+        "description": "When accessing Azure Resources, only approved applications and secure protocols should be used... initiative policy",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "SPC Common"
+        },
+        "parameters": {
+            "Effect-HostVmNetworkingAzureHCISystems": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Disabled",
+                    "AuditIfNotExists"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "Effect-APIManagementEncrypted": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Disabled",
+                    "Deny"
+                ],
+                "defaultValue": "Audit"
+            },
+            "Effect-AppServiceAccessibleHTTPS": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Deny",
+                    "Disabled"
+                ],
+                "defaultValue": "Audit"
+            },
+            "Effect-AppServiceReqFTPS": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "Effect-AppServiceUseTLS": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "Effect-AzureSQLDbTLS": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Disabled",
+                    "Deny"
+                ],
+                "defaultValue": "Audit"
+            },
+            "Effect-EnforceSSLEnableMySQL": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Deny"
+                ],
+                "defaultValue": "Audit"
+            },
+            "Effect-EnforceSSLEnablePostgreSQLDbServers": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Disabled"
+                ],
+                "defaultValue": "Audit"
+            },
+            "Effect-FunctionAppAccessHTTPS": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Disabled",
+                    "Deny"
+                ],
+                "defaultValue": "Audit"
+            },
+            "Effect-FunctionAppReqFTPS": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "Effect-FunctionAppUseTLS": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "source-KubernetesClusterAccessHTTPS": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Source",
+                    "description": "The source k8s object for constraint evaluation. 'Original' means only evaluate against the specific GroupVersionKind specified in the policy definition. 'Generated' means only evaluate against k8s objects generated by Gatekeeper ExpansionTemplates. 'All' means evaluate against both the original object and any generated ones."
+                },
+                "allowedValues": [
+                    "All",
+                    "Generated",
+                    "Original"
+                ],
+                "defaultValue": "Original"
+            },
+            "warn-KubernetesClusterAccessHTTPS": {
+                "type": "Boolean",
+                "metadata": {
+                    "displayName": "Warn",
+                    "description": "Whether or not to return warnings back to the user in the kubectl cli"
+                },
+                "defaultValue": false
+            },
+            "effect-KubernetesClusterAccessHTTPS": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Source",
+                    "description": "'Audit' allows a non-compliant resource to be created, but flags it as non-compliant. 'Deny' blocks the resource creation. 'Disable' turns off the policy.",
+                    "portalReview": true
+                },
+                "allowedValues": [
+                    "audit",
+                    "Audit",
+                    "deny",
+                    "Deny",
+                    "disabled",
+                    "Disabled"
+                ],
+                "defaultValue": "Deny"
+            },
+            "excludedNamespaces-KubernetesClusterAccessHTTPS": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "Namespace exclusions",
+                    "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
+                },
+                "defaultValue": [
+                    "kube-system",
+                    "gatekeeper-system",
+                    "azure-arc",
+                    "azure-extensions-usage-system"
+                ]
+            },
+            "namespaces-KubernetesClusterAccessHTTPS": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "Namespace inclusions",
+                    "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
+                },
+                "defaultValue": []
+            },
+            "labelSelector-KubernetesClusterAccessHTTPS": {
+                "type": "Object",
+                "metadata": {
+                    "displayName": "Kubernetes label selector",
+                    "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
+                },
+                "defaultValue": {},
+                "schema": {
+                    "description": "A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all resources.",
+                    "type": "object",
+                    "properties": {
+                        "matchLabels": {
+                            "description": "matchLabels is a map of {key,value} pairs.",
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            },
+                            "minProperties": 1
+                        },
+                        "matchExpressions": {
+                            "description": "matchExpressions is a list of values, a key, and an operator.",
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "key": {
+                                        "description": "key is the label key that the selector applies to.",
+                                        "type": "string"
+                                    },
+                                    "operator": {
+                                        "description": "operator represents a key's relationship to a set of values.",
+                                        "type": "string",
+                                        "enum": [
+                                            "In",
+                                            "NotIn",
+                                            "Exists",
+                                            "DoesNotExist"
+                                        ]
+                                    },
+                                    "values": {
+                                        "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty.",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "key",
+                                    "operator"
+                                ],
+                                "additionalProperties": false
+                            },
+                            "minItems": 1
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "Effect-SecureConnAzureCacheRedis": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Deny",
+                    "Disabled"
+                ],
+                "defaultValue": "Audit"
+            },
+            "Effect-SecureTransStgAccEnabled": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Deny",
+                    "Disabled"
+                ],
+                "defaultValue": "Audit"
+            },
+            "IncludeArcMachines-WinMachineConfSecureProtocols": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Include Arc connected servers",
+                    "description": "By selecting this option, you agree to be charged monthly per Arc connected machine.",
+                    "portalReview": "true"
+                },
+                "allowedValues": [
+                    "true",
+                    "false"
+                ],
+                "defaultValue": "false"
+            },
+            "MinimumTLSVersion-WinMachineConfSecureProtocols": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Minimum TLS version",
+                    "description": "The minimum TLS protocol version that should be enabled. Windows machines with lower TLS versions will be marked as non-compliant."
+                },
+                "allowedValues": [
+                    "1.1",
+                    "1.2"
+                ],
+                "defaultValue": "1.2"
+            },
+            "effect-WinMachineConfSecureProtocols": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of this policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            }
+        },
+        "policyDefinitions": [
+            {
+                "policyDefinitionReferenceId": "HostVmNetworkingAzureHCISystems",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/36f0d6bc-a253-4df8-b25b-c3a5023ff443",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-HostVmNetworkingAzureHCISystems')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "APIManagementEncrypted",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ee7495e7-3ba7-40b6-bfee-c29e22cc75d4",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-APIManagementEncrypted')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "AppServiceAccessibleHTTPS",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a4af4a39-4135-47fb-b175-47fbdf85311d",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-AppServiceAccessibleHTTPS')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "AppServiceReqFTPS",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4d24b6d4-5e53-4a4f-a7f4-618fa573ee4b",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-AppServiceReqFTPS')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "AppServiceUseTLS",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f0e6e85b-9b9f-4a4b-b67b-f730d42f1b0b",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-AppServiceUseTLS')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "AzureSQLDbTLS",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/32e6bbec-16b6-44c2-be37-c5b672d103cf",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-AzureSQLDbTLS')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "EnforceSSLEnableMySQL",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e802a67a-daf5-4436-9ea6-f6d821dd0c5d",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-EnforceSSLEnableMySQL')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "EnforceSSLEnablePostgreSQLDbServers",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d158790f-bfb0-486c-8631-2dc6b4e8e6af",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-EnforceSSLEnablePostgreSQLDbServers')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "FunctionAppAccessHTTPS",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6d555dd1-86f2-4f1c-8ed7-5abae7c6cbab",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-FunctionAppAccessHTTPS')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "FunctionAppReqFTPS",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/399b2637-a50f-4f95-96f8-3a145476eb15",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-FunctionAppReqFTPS')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "FunctionAppUseTLS",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f9d614c5-c173-4d56-95a7-b4437057d193",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-FunctionAppUseTLS')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "KubernetesClusterAccessHTTPS",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1a5b4dca-0b6f-4cf5-907c-56316bc1bf3d",
+                "parameters": {
+                    "source": {
+                        "value": "[[parameters('source-KubernetesClusterAccessHTTPS')]"
+                    },
+                    "warn": {
+                        "value": "[[parameters('warn-KubernetesClusterAccessHTTPS')]"
+                    },
+                    "effect": {
+                        "value": "[[parameters('Effect-KubernetesClusterAccessHTTPS')]"
+                    },
+                    "excludedNamespaces": {
+                        "value": "[[parameters('excludedNamespaces-KubernetesClusterAccessHTTPS')]"
+                    },
+                    "namespaces": {
+                        "value": "[[parameters('namespaces-KubernetesClusterAccessHTTPS')]"
+                    },
+                    "labelSelector": {
+                        "value": "[[parameters('labelSelector-KubernetesClusterAccessHTTPS')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "SecureConnAzureCacheRedis",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/22bee202-a82f-4305-9a2a-6d7f44d4dedb",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-SecureConnAzureCacheRedis')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "SecureTransStgAccEnabled",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/404c3081-a854-4457-ae30-26a93ef643f9",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-SecureTransStgAccEnabled')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "WinMachineConfSecureProtocols",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5752e6d6-1206-46d8-8ab1-ecc2f71a8112",
+                "parameters": {
+                    "IncludeArcMachines": {
+                        "value": "[[parameters('IncludeArcMachines-WinMachineConfSecureProtocols')]"
+                    },
+                    "MinimumTLSVersion": {
+                        "value": "[[parameters('MinimumTLSVersion-WinMachineConfSecureProtocols')]"
+                    },
+                    "effect": {
+                        "value": "[[parameters('Effect-WinMachineConfSecureProtocols')]"
+                    }
+                },
+                "groupNames": []
+            }
+        ],
+        "policyDefinitionGroups": null
+    }
+}

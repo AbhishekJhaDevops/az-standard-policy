@@ -1,0 +1,154 @@
+{
+    "name": "CDS013-Network-Security-advanced",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+      "policyType": "Custom",
+      "displayName": "CDS013-Network-Security-advanced",
+      "description": "Enhanced Network Security Initiative Policy",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "SPC Common"
+      },
+      "parameters": {
+        "Effect-InternerRouteFirewall": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "Effect-IPForwardingVirtualMachine": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "Effect-ManagementPortVMNetworkAccess": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "Effect-ManagementPortClosedOnVM": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of this policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "Effect-WebAppFWforAzureFrontDoor": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of this policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "Effect-WAFEnabledAppGW": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of this policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        }
+      },
+      "policyDefinitions": [
+        {
+          "policyDefinitionReferenceId": "InternerRouteFirewall",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/fc5e4038-4584-4632-8c85-c0448d374b2c",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-InternerRouteFirewall')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "IPForwardingVirtualMachine",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/bd352bd5-2853-4985-bf0d-73806b4a5744",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-IPForwardingVirtualMachine')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "ManagementPortVMNetworkAccess",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b0f33259-77d7-4c9e-aac6-3aabcfae693c",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-ManagementPortVMNetworkAccess')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "ManagementPortClosedOnVM",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/22730e10-96f6-4aac-ad84-9383d35b5917",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-ManagementPortClosedOnVM')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "WebAppFWforAzureFrontDoor",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/055aa869-bc98-4af8-bafc-23f1ab6ffe2c",
+            "parameters": {
+              "effect": {
+                "value": "[[parameters('Effect-WebAppFWforAzureFrontDoor')]"
+              }
+            },
+            "groupNames": []
+          },
+          {
+            "policyDefinitionReferenceId": "WAFEnabledAppGW",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/564feb30-bf6a-4854-b4bb-0d2d2d1e6c66",
+            "parameters": {
+              "effect": {
+                "value": "[[parameters('Effect-WAFEnabledAppGW')]"
+              }
+            },
+            "groupNames": []
+          }
+      ],
+      "policyDefinitionGroups": null
+    }
+  }

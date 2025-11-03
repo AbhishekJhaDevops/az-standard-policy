@@ -1,0 +1,86 @@
+{
+    "name": "CDS019-Auth-Mgmt-User-Accounts",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+      "policyType": "Custom",
+      "displayName": "CDS019-Auth-Mgmt-User-Accounts",
+      "description": "When accessing Azure Resources, only approved applications and secure protocols are allowed according to the initiative policy.",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "SPC Common"
+      },
+      "parameters": {
+        "Effect-LogAnalyticsExtLinAzureArcMachines": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "Effect-LogAnalyticsExtWinAzureArcMachines": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "Effect-SQLServersStorageAccConfigured": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        }
+      },
+      "policyDefinitions": [
+        {
+          "policyDefinitionReferenceId": "LogAnalyticsExtLinAzureArcMachines",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/842c54e8-c2f9-4d79-ae8d-38d8b8019373",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-LogAnalyticsExtLinAzureArcMachines')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "LogAnalyticsExtWinAzureArcMachines",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d69b1763-b96d-40b8-a2d9-ca31e9fd0d3e",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-LogAnalyticsExtWinAzureArcMachines')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "SQLServersStorageAccConfigured",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/89099bee-89e0-4b26-a5f4-165451757743",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-SQLServersStorageAccConfigured')]"
+            }
+          },
+          "groupNames": []
+        }
+      ],
+      "policyDefinitionGroups": null
+    }
+  }

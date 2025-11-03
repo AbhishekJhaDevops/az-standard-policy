@@ -1,0 +1,127 @@
+{
+    "name": "CDS002",
+    "type": "Microsoft.Authorization/policyAssignments",
+    "apiVersion": "2019-09-01",
+    "properties": {
+        "description": "Windows Virtual Machine에 Azure Monitor Agent를 설치하고 Collection Rule과 EndPoint를 설정하는 정책",
+        "displayName": "[CDS002] Azure Monitor Agent and Data Collection Rule",
+        "notScopes": [],
+        "parameters": {
+            "Effect-WinVMSSAzMonitorAgentInstalled": {
+                "value": "AuditIfNotExists"
+            },
+            "scopeToSupportedImages-WinVMSSAzMonitorAgentInstalled": {
+                "value": true
+            },
+            "listOfWindowsImageIdToInclude-WinVMSSAzMonitorAgentInstalled": {
+                "value": []
+            },
+            "Effect-linVMSSAzMonitorAgentInstalled": {
+                "value": "AuditIfNotExists"
+            },
+            "scopeToSupportedImages-linVMSSAzMonitorAgentInstalled": {
+                "value": true
+            },
+            "Effect-linVMAzMonitorAgentInstalled": {
+                "value": "AuditIfNotExists"
+            },
+            "scopeToSupportedImages-linVMAzMonitorAgentInstalled": {
+                "value": true
+            },
+            "Effect-ConfWinVMAzMonitorAgentSystemMI": {
+                "value": "DeployIfNotExists"
+            },
+            "scopeToSupportedImages-ConfWinVMAzMonitorAgentSystemMI": {
+                "value": true
+            },
+            "listOfWindowsImageIdToInclude-ConfWinVMAzMonitorAgentSystemMI": {
+                "value": []
+            },
+            "Effect-ConfWinVMSSAzMonitorAgentSystemMI": {
+                "value": "DeployIfNotExists"
+            },
+            "BYOUserMI-ConfWinVMSSAzMonitorAgentSystemMI": {
+                "value": true
+            },
+            "restrictBYOUserIdtoSub-ConfWinVMSSAzMonitorAgentSystemMI": {
+                "value": true
+            },
+            "userIdRecoureId-ConfWinVMSSAzMonitorAgentSystemMI": {
+                "value": ""
+            },
+            "userMIName-ConfWinVMSSAzMonitorAgentSystemMI": {
+                "value": ""
+            },
+            "UserMIResourGroup-ConfWinVMSSAzMonitorAgentSystemMI": {
+                "value": ""
+            },
+            "scopeToSupportedImages-ConfWinVMSSAzMonitorAgentSystemMI": {
+                "value": true
+            },
+            "listWinImage-ConfWinVMSSAzMonitorAgentSystemMI": {
+                "value": []
+            },
+            "Effect-ConfWinArcMachineAzMonitorAgent": {
+                "value": "DeployIfNotExists"
+            },
+            "Effect-ConfWinMachineDataCollectionRuleorEndpoint": {
+                "value": "DeployIfNotExists"
+            },
+            "scopeToSupportedImages-ConfWinMachineDataCollectionRuleorEndpoint": {
+                "value": true
+            },
+            "listWinImage-ConfWinMachineDataCollectionRuleorEndpoint": {
+                "value": []
+            },
+            "dcrResourceId-ConfWinMachineDataCollectionRuleorEndpoint": {
+                "value": ""
+            },
+            "resourceType-ConfWinMachineDataCollectionRuleorEndpoint": {
+                "value": "Microsoft.Insights/dataCollectionRules"
+            },
+            "Effect-ConflinvmssAzMonitorAgentManagdIdentityAuth": {
+                "value": "DeployIfNotExists"
+            },
+            "scopeToSupportedImages-ConflinvmssAzMonitorAgentManagdIdentityAuth": {
+                "value": true
+            },
+            "listOfLinuxImageIdToInclude-ConflinvmssAzMonitorAgentManagdIdentityAuth": {
+                "value": []
+            },
+            "Effect-ConfLinVMDcrDce": {
+                "value": "DeployIfNotExists"
+            },
+            "scopeToSupportedImages-ConfLinVMDcrDce": {
+                "value": true
+            },
+            "listOfLinuxImageIdToInclude-ConfLinVMDcrDce": {
+                "value": []
+            },
+            "dcrResourceId-ConfLinVMDcrDce": {
+                "value": ""
+            },
+            "resourceType-ConfLinVMDcrDce": {
+                "value": "Microsoft.Insights/dataCollectionRules"
+            },
+            "Effect-ConfLinArcMachinesAzMonitorAgent": {
+                "value": "DeployIfNotExists"
+            },
+            "Effect-ConfLinVMAzMonitorSysAssnMngdIdentityAuth": {
+                "value": "DeployIfNotExists"
+            },
+            "scopeToSupportedImages-ConfLinVMAzMonitorSysAssnMngdIdentityAuth": {
+                "value": true
+            },
+            "listOfLinuxImageIdToInclude-ConfLinVMAzMonitorSysAssnMngdIdentityAuth": {
+                "value": []
+            }
+        },
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/CDS002",
+        "scope": null,
+        "enforcementMode": "Default"
+    },
+    "location": "koreaCentral",
+    "identity": {
+      "type": "SystemAssigned"
+    }
+}

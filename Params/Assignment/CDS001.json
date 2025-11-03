@@ -1,0 +1,223 @@
+{
+    "name": "CDS001",
+    "type": "Microsoft.Authorization/policyAssignments",
+    "apiVersion": "2019-09-01",
+    "properties": {
+        "description": "This policy set enables the security benchmark for Azure SQL Managed Instance, Azure Arc-enabled SQL Managed Instance, and SQL Server on Azure Virtual Machines. The policy set includes policies to enable Azure Monitor Agent, Data Collection Rule, and Log Analytics workspace for SQL Managed Instance, Azure Arc-enabled SQL Managed Instance, and SQL Server on Azure Virtual Machines.",
+        "displayName": "[CDS001] Security Benchmark",
+        "notScopes": [],
+        "parameters": {
+            "effect-AzKeyVaultFwEnabled": {
+                "value": "Audit"
+            },
+            "restrictIPAddresses-AzKeyVaultFwEnabled": {
+                "value": "No"
+            },
+            "allowedIPAddresses-AzKeyVaultFwEnabled": {
+                "value": []
+            },
+            "forbiddenIPAddresses-AzKeyVaultFwEnabled": {
+                "value": []
+            },
+            "effect-StgAccPreventCrossTenantObjReplicn": {
+                "value": "Audit"
+            },
+            "effect-VnetProtectedAzDDoSProtect": {
+                "value": "Modify"
+            },
+            "ddosPlan-VnetProtectedAzDDoSProtect": {
+                "value": ""
+            },
+            "effect-AzKvDisPubAcc": {
+                "value": "Audit"
+            },
+            "effect-PostgreSqlFlexSerTLS1.2OrNewer": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-AzSqlMangdDisablepubAcc": {
+                "value": "Audit"
+            },
+            "effect-ConfAzSqlServDisPubNetAcc": {
+                "value": "Modify"
+            },
+            "logAnalytics-ConfAzActivityLogsStreamSpecifiedLAW": {
+                "value": ""
+            },
+            "effect-ConfAzActivityLogsStreamSpecifiedLAW": {
+                "value": "DeployIfNotExists"
+            },
+            "logsEnabled-ConfAzActivityLogsStreamSpecifiedLAW": {
+                "value": "True"
+            },
+            "effect-StgAccMinimumTLSVersion": {
+                "value": "Audit"
+            },
+            "minimumTlsVersion-StgAccMinimumTLSVersion": {
+                "value": "TLS1_2"
+            },
+            "effect-DenyCreationLbWithPubIps": {
+                "value": "Audit"
+            },
+            "effect-ConfStgAccDisablePubAccess": {
+                "value": "Modify"
+            },
+            "effect-AppServEnvProviWithLatestVersion": {
+                "value": "Audit"
+            },
+            "effect-AppServiceEnvironment": {
+                "value": "Audit"
+            },
+            "effect-GuestAccReadPermissions": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-EnforceSSlConnEnabled": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-ContAppEnvNetwkInjectns": {
+                "value": "Audit"
+            },
+            "effect-AppSerAppInjecVnet": {
+                "value": "Audit"
+            },
+            "effect-SQLServerIntegrationServices": {
+                "value": "Audit"
+            },
+            "effect-AzdataBricksWorksVnet": {
+                "value": "Audit"
+            },
+            "effect-AppServiceSlotOutboundnonRFCTraficVnet": {
+                "value": "Audit"
+            },
+            "effect-AppServiceAppEnableConfigrouteVnet": {
+                "value": "Audit"
+            },
+            "effect-AzDefenderKvEnable": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-GuestAccWithPermissionsAzResource": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-ContAppDisableNetAcc": {
+                "value": "Audit"
+            },
+            "effect-PvEndPointEnabledPostgreSQLFlexServer": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-AppServiceAppSlotsAccHTTPS": {
+                "value": "Audit"
+            },
+            "effect-PubNetAccAzSQLDbDisabled": {
+                "value": "Audit"
+            },
+            "effect-PubNetAccDisPostgreSql": {
+                "value": "Audit"
+            },
+            "effect-AppServiceHTTPVersion": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-AppServiceAppSlotsDebug": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-PubNetAccDisabledMariaDB": {
+                "value": "Audit"
+            },
+            "effect-MicrosoftAntiMalwareAzAutoProtectionSign": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-ModifyConfAzFiledisPubNetAccess": {
+                "value": "Modify"
+            },
+            "effect-AzKvRBACPermissionModel": {
+                "value": "Audit"
+            },
+            "effect-AzDataBricksWorkSpacePvLink": {
+                "value": "Audit"
+            },
+            "effect-SqlMangdInstanceMinimalTlsVer1.2": {
+                "value": "Audit"
+            },
+            "effect-AppSerAppSlotsShouldEnableConfRoutingVnet": {
+                "value": "Audit"
+            },
+            "effect-PubNetAccBeDisPostgreFlexServer": {
+                "value": "Audit"
+            },
+            "effect-PvEndpointEnabledPostgreFlexServer": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-PubNetAccDisabledMySQLServers": {
+                "value": "Audit"
+            },
+            "effect-AppSerEndpointTls1.0And1.1Disabled": {
+                "value": "Audit"
+            },
+            "effect-PubNetAccShouldDisabledMySqlFlexServer": {
+                "value": "Audit"
+            },
+            "effect-KvDeletionProtection": {
+                "value": "Audit"
+            },
+            "effect-ContRegshouldusePrivateLink": {
+                "value": "Audit"
+            },
+            "effect-ContAppsEnvDisablePubNetworkAccess": {
+                "value": "Audit"
+            },
+            "effect-Tls1.2ArcSqlMangdInstance": {
+                "value": "Audit"
+            },
+            "effect-AppSlotsCORSConfResource": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-AzKvMangdHSMPvLink": {
+                "value": "Audit"
+            },
+            "effect-AppSerSlotsUseLatestTLSVersion": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-NetAppVolNSF4.1KerbosDataEncryption": {
+                "value": "Audit"
+            },
+            "effect-AppServiceShouldHaveRemDebuggTurnedOff": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-AciContAppDeployVnet": {
+                "value": "Audit"
+            },
+            "effect-AppServAppVnetSerEndpoint": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-AppSerOutBoundnonRFCTraffVnet": {
+                "value": "Audit"
+            },
+            "effect-AzDefenderAzSQLDbEnabled": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-AppSerAppInjectVnet": {
+                "value": "Audit"
+            },
+            "effect-PubNetAccAzFileSync": {
+                "value": "Audit"
+            },
+            "effect-PvEndpointEnabledMySqlServers": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-EventhubVnetEndpoint": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-AzNetAppFilesSMBVolSMB3Encryption": {
+                "value": "Audit"
+            },
+            "effect-ConfCognitiveAccDisPubNetAcc": {
+                "value": "Modify"
+            }
+        },
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/CDS001",
+        "scope": null,
+        "enforcementMode": "Default"
+    },
+    "location": "koreaCentral",
+    "identity": {
+      "type": "SystemAssigned"
+    }
+}

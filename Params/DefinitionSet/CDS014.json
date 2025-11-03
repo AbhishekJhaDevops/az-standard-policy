@@ -1,0 +1,199 @@
+{
+    "name": "CDS014-Data-Security",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+      "policyType": "Custom",
+      "displayName": "CDS014-Data-Security",
+      "description": "Data Protection Initiative Policy",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "SPC Common"
+      },
+      "parameters": {
+        "Effect-MicrosoftEntraAdminForMySQLServer": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "Effect-AutomationAccEncrypted": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "Effect-AzureMySQLFlexEntraAuth": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "Effect-LinuxVMAzureDiskEncryption": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of this policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "Effect-FabricClusterProtectionEncryption": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of this policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "Effect-DataEncryptionSQL": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of this policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "Effect-VMVMSSEncryptionAtHost": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of this policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "Effect-WinVMAzureDiskEncryption": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of this policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        }
+      },
+      "policyDefinitions": [
+        {
+          "policyDefinitionReferenceId": "MicrosoftEntraAdminForMySQLServer",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/146412e9-005c-472b-9e48-c87b72ac229e",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-MicrosoftEntraAdminForMySQLServer')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "AutomationAccEncrypted",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3657f5a0-770e-44a3-b44e-9431ba1e9735",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-AutomationAccEncrypted')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "AzureMySQLFlexEntraAuth",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/40e85574-ef33-47e8-a854-7a65c7500560",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-AzureMySQLFlexEntraAuth')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "LinuxVMAzureDiskEncryption",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ca88aadc-6e2b-416c-9de2-5a0f01d1693f",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-LinuxVMAzureDiskEncryption')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "FabricClusterProtectionEncryption",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/617c02be-7f02-4efd-8836-3180d47b6c68",
+            "parameters": {
+              "effect": {
+                "value": "[[parameters('Effect-FabricClusterProtectionEncryption')]"
+              }
+            },
+            "groupNames": []
+          },
+          {
+            "policyDefinitionReferenceId": "DataEncryptionSQL",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/17k78e20-9358-41c9-923c-fb736d382a12",
+            "parameters": {
+              "effect": {
+                "value": "[[parameters('Effect-DataEncryptionSQL')]"
+              }
+            },
+            "groupNames": []
+          },
+          {
+            "policyDefinitionReferenceId": "VMVMSSEncryptionAtHost",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/fc4d8e41-e223-45ea-9bf5-eada37891d87",
+            "parameters": {
+              "effect": {
+                "value": "[[parameters('Effect-VMVMSSEncryptionAtHost')]"
+              }
+            },
+            "groupNames": []
+          },
+          {
+            "policyDefinitionReferenceId": "WinVMAzureDiskEncryption",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3dc5edcd-002d-444c-b216-e123bbfa37c0",
+            "parameters": {
+              "effect": {
+                "value": "[[parameters('Effect-WinVMAzureDiskEncryption')]"
+              }
+            },
+            "groupNames": []
+          }
+      ],
+      "policyDefinitionGroups": null
+    }
+  }

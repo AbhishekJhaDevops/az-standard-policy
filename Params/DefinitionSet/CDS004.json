@@ -1,0 +1,497 @@
+{
+  "name": "CDS004",
+  "type": "Microsoft.Authorization/policySetDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "policyType": "Custom",
+    "displayName": "[CDS004] Configure Microsoft Defender for Cloud Plans",
+    "description": "This policy set enables you to configure Microsoft Defender for Cloud plans for various Azure services.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SPC Common"
+    },
+    "parameters": {
+      "Effect-ConfAzDefenderAppSerivceEnabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "Effect-ConfAzDefenderSQLEnabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "Effect-ConfAzDefenderOpenSourceDBEnabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "Effect-ConfAzDefenderResourceManagerEnabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "Effect-ConfAzDefenderSQLMachineEnabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "Effect-ConfMSDefenderCSPMPlan": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "DataDiscovery-ConfMSDefenderCSPMPlan": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Sensitive Data Discovery Enabled",
+          "description": "Enable or disable the Sensitive Data Discovery add-on feature"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "ACRvulnerability-ConfMSDefenderCSPMPlan": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Container Registries Vulnerability Assessments Enabled",
+          "description": "Enable or disable the Container Registries Vulnerability Assessments add-on feature"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "AgentlessK8S-ConfMSDefenderCSPMPlan": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Agentless Discovery for Kubernetes Enabled",
+          "description": "Enable or disable the Agentless Discovery for Kubernetes add-on feature"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "AgentlessVMScan-ConfMSDefenderCSPMPlan": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Agentless VM Scanning Enabled",
+          "description": "Enable or disable the Agentless VM Scanning add-on feature"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "EntraMgmt-ConfMSDefenderCSPMPlan": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Permissions Management Enabled",
+          "description": "Enable or disable the Permissions Management add-on feature"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "Effect-ConfMSDefenderContainerPlan": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "ACRvulnerability-ConfMSDefenderContainerPlan": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Container Registries Vulnerability Assessments Enabled",
+          "description": "Controls the container registries vulnerability assessments add-on"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "Effect-ConfMSDefenderKeyVaultPlan": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "SubPlan-ConfMSDefenderKeyVaultPlan": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Key Vaults bundle's sub plan",
+          "description": "Select a Defender for Key Vault plan"
+        },
+        "allowedValues": [
+          "PerTransaction",
+          "PerKeyVault"
+        ],
+        "defaultValue": "PerTransaction"
+      },
+      "Effect-ConfMSDefenderServerPlan": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "SubPlan-ConfMSDefenderServerPlan": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Defender for Servers plans",
+          "description": "Select a Defender for Servers plan"
+        },
+        "allowedValues": [
+          "P1",
+          "P2"
+        ],
+        "defaultValue": "P2"
+      },
+      "AgentlessVMScan-ConfMSDefenderServerPlan": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Agentless VM Scanning Enabled",
+          "description": "Enable or disable the Agentless VM Scanning add-on feature"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "MdeSubscription-ConfMSDefenderServerPlan": {
+        "type": "String",
+        "metadata": {
+          "displayName": "MDE Designated Subscription Enabled",
+          "description": "Enable or disable the MDE Designated Subscription add-on feature"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "false"
+      },
+      "Effect-ConfMSDefenderStorageEnable": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "UpMalwareScan-ConfMSDefenderStorageEnable": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Malware Scanning Enabled",
+          "description": "Enable or disable the Malware Scanning add-on feature"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "GBMonthStgAccount-ConfMSDefenderStorageEnable": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "Cap GB Per Month Per Storage Account",
+          "description": "Limit the GB scanned per month for each storage account within the subscription.\nValue must be an integer, 10GB or higher\nSet to -1 for unlimited scanning"
+        },
+        "defaultValue": 5000
+      },
+      "DataDiscovery-ConfMSDefenderStorageEnable": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Sensitive Data Threat Detection Enabled",
+          "description": "Enable or disable the Sensitive Data Threat Detection add-on feature"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "effect-MsDefenderAzCosmosDbEnabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      },
+      "effect-MDSqlUnprotectedAzSqlServers": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      },
+      "effect-AzDefenderSqlMachinesEnabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "ConfAzDefenderAppSerivceEnabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b40e7bcd-a1e5-47fe-b9cf-2f534d0bfb7d",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfAzDefenderAppSerivceEnabled')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfAzDefenderSQLEnabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b99b73e7-074b-4089-9395-b7236f094491",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfAzDefenderSQLEnabled')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfAzDefenderOpenSourceDBEnabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/44433aa3-7ec2-4002-93ea-65c65ff0310a",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfAzDefenderOpenSourceDBEnabled')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfAzDefenderResourceManagerEnabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b7021b2b-08fd-4dc0-9de7-3c6ece09faf9",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfAzDefenderResourceManagerEnabled')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfAzDefenderSQLMachineEnabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/50ea7265-7d8c-429e-9a7d-ca1f410191c3",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfAzDefenderSQLMachineEnabled')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfMSDefenderCSPMPlan",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/72f8cee7-2937-403d-84a1-a4e3e57f3c21",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfMSDefenderCSPMPlan')]"
+          },
+          "isSensitiveDataDiscoveryEnabled": {
+            "value": "[[parameters('DataDiscovery-ConfMSDefenderCSPMPlan')]"
+          },
+          "isContainerRegistriesVulnerabilityAssessmentsEnabled": {
+            "value": "[[parameters('ACRvulnerability-ConfMSDefenderCSPMPlan')]"
+          },
+          "isAgentlessDiscoveryForKubernetesEnabled": {
+            "value": "[[parameters('AgentlessK8S-ConfMSDefenderCSPMPlan')]"
+          },
+          "isAgentlessVmScanningEnabled": {
+            "value": "[[parameters('AgentlessVMScan-ConfMSDefenderCSPMPlan')]"
+          },
+          "isEntraPermissionsManagementEnabled": {
+            "value": "[[parameters('EntraMgmt-ConfMSDefenderCSPMPlan')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfMSDefenderContainerPlan",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/efd4031d-b232-4595-babf-ae817348e91b",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfMSDefenderContainerPlan')]"
+          },
+          "isContainerRegistriesVulnerabilityAssessmentsEnabled": {
+            "value": "[[parameters('ACRvulnerability-ConfMSDefenderContainerPlan')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfMSDefenderKeyVaultPlan",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1f725891-01c0-420a-9059-4fa46cb770b7",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfMSDefenderKeyVaultPlan')]"
+          },
+          "subPlan": {
+            "value": "[[parameters('SubPlan-ConfMSDefenderKeyVaultPlan')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfMSDefenderServerPlan",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5eb6d64a-4086-4d7a-92da-ec51aed0332d",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfMSDefenderServerPlan')]"
+          },
+          "subPlan": {
+            "value": "[[parameters('SubPlan-ConfMSDefenderServerPlan')]"
+          },
+          "isAgentlessVmScanningEnabled": {
+            "value": "[[parameters('AgentlessVMScan-ConfMSDefenderServerPlan')]"
+          },
+          "isMdeDesignatedSubscriptionEnabled": {
+            "value": "[[parameters('MdeSubscription-ConfMSDefenderServerPlan')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "ConfMSDefenderStorageEnable",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/cfdc5972-75b3-4418-8ae1-7f5c36839390",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-ConfMSDefenderStorageEnable')]"
+          },
+          "isOnUploadMalwareScanningEnabled": {
+            "value": "[[parameters('UpMalwareScan-ConfMSDefenderStorageEnable')]"
+          },
+          "capGBPerMonthPerStorageAccount": {
+            "value": "[[parameters('GBMonthStgAccount-ConfMSDefenderStorageEnable')]"
+          },
+          "isSensitiveDataDiscoveryEnabled": {
+            "value": "[[parameters('DataDiscovery-ConfMSDefenderStorageEnable')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "MsDefenderAzCosmosDbEnabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/DFC05",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-MsDefenderAzCosmosDbEnabled')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "MDSqlUnprotectedAzSqlServers",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/DFC47",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-MDSqlUnprotectedAzSqlServers')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "AzDefenderSqlMachinesEnabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/DFC66",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-AzDefenderSqlMachinesEnabled')]"
+          }
+        },
+        "groupNames": []
+      }
+    ],
+    "policyDefinitionGroups": null
+  }
+}

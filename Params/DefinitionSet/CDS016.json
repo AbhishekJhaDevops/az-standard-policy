@@ -1,0 +1,112 @@
+{
+  "name": "CDS016-Auth-Mgmt-User-Accounts",
+  "type": "Microsoft.Authorization/policySetDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "policyType": "Custom",
+    "displayName": "CDS016-Auth-Mgmt-User-Accounts",
+    "description": "When accessing Azure Resources, only approved applications and secure protocols are allowed according to the initiative policy.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SPC Common"
+    },
+    "parameters": {
+      "Effect-CosmosDBAccLocalAuth": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "Effect-StorageAccountSharedKeyAccess": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "Effect-VPNGWUseAzureADAuthForP2sUsers": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "Effect-APIMgmtSubsNotBeScopedAllAPIS": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of this policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "CosmosDBAccLocalAuth",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5450f5bd-9c72-4390-a9c4-a7aba4edfdd2",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-CosmosDBAccLocalAuth')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "StorageAccountSharedKeyAccess",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/8c6a50c6-9ffd-4ae7-986f-5fa6111f9a54",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-StorageAccountSharedKeyAccess')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "VPNGWUseAzureADAuthForP2sUsers",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/21a6bc25-125e-4d13-b82d-2e19b7208ab7",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-VPNGWUseAzureADAuthForP2sUsers')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "APIMgmtSubsNotBeScopedAllAPIS",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3aa03346-d8c5-4994-a5bc-7652c2a2aef1",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect-APIMgmtSubsNotBeScopedAllAPIS')]"
+          }
+        },
+        "groupNames": []
+      }
+    ],
+    "policyDefinitionGroups": null
+  }
+}

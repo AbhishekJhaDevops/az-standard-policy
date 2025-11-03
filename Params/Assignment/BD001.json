@@ -1,0 +1,78 @@
+{
+    "name": "BD001",
+    "type": "Microsoft.Authorization/policyAssignments",
+    "apiVersion": "2019-09-01",
+    "properties": {
+      "description": "ISO 27001:2013 이니셔티브 정책 적용",
+      "displayName": "[BD001] Initiative ISO 27001:2013",
+      "notScopes": [],
+      "parameters": {
+        "includeArcMachines": {
+          "value": "false"
+        },
+        "metricsEnabled-7f89b1eb-583c-429a-8828-af049802c1d9": {
+          "value": true
+        },
+        "logsEnabled-7f89b1eb-583c-429a-8828-af049802c1d9": {
+          "value": true
+        },
+        "listOfResourceTypesWithDiagnosticLogsEnabled": {
+          "value": [
+            "Microsoft.AnalysisServices/servers",
+            "Microsoft.ApiManagement/service",
+            "Microsoft.Network/applicationGateways",
+            "Microsoft.Automation/automationAccounts",
+            "Microsoft.ContainerInstance/containerGroups",
+            "Microsoft.ContainerRegistry/registries",
+            "Microsoft.ContainerService/managedClusters",
+            "Microsoft.Batch/batchAccounts",
+            "Microsoft.Cdn/profiles/endpoints",
+            "Microsoft.CognitiveServices/accounts",
+            "Microsoft.DocumentDB/databaseAccounts",
+            "Microsoft.DataFactory/factories",
+            "Microsoft.DataLakeAnalytics/accounts",
+            "Microsoft.DataLakeStore/accounts",
+            "Microsoft.EventGrid/eventSubscriptions",
+            "Microsoft.EventGrid/topics",
+            "Microsoft.EventHub/namespaces",
+            "Microsoft.Network/expressRouteCircuits",
+            "Microsoft.Network/azureFirewalls",
+            "Microsoft.HDInsight/clusters",
+            "Microsoft.Devices/IotHubs",
+            "Microsoft.KeyVault/vaults",
+            "Microsoft.Network/loadBalancers",
+            "Microsoft.Logic/integrationAccounts",
+            "Microsoft.Logic/workflows",
+            "Microsoft.DBforMySQL/servers",
+            "Microsoft.Network/networkInterfaces",
+            "Microsoft.Network/networkSecurityGroups",
+            "Microsoft.DBforPostgreSQL/servers",
+            "Microsoft.PowerBIDedicated/capacities",
+            "Microsoft.Network/publicIPAddresses",
+            "Microsoft.RecoveryServices/vaults",
+            "Microsoft.Cache/redis",
+            "Microsoft.Relay/namespaces",
+            "Microsoft.Search/searchServices",
+            "Microsoft.ServiceBus/namespaces",
+            "Microsoft.SignalRService/SignalR",
+            "Microsoft.Sql/servers/databases",
+            "Microsoft.Sql/servers/elasticPools",
+            "Microsoft.StreamAnalytics/streamingjobs",
+            "Microsoft.TimeSeriesInsights/environments",
+            "Microsoft.Network/trafficManagerProfiles",
+            "Microsoft.Compute/virtualMachines",
+            "Microsoft.Compute/virtualMachineScaleSets",
+            "Microsoft.Network/virtualNetworks",
+            "Microsoft.Network/virtualNetworkGateways"
+          ]
+        }
+      },
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/89c6cddc-1c73-4ac1-b19c-54d1a15a42f2",
+      "scope": null,
+      "enforcementMode": "Default"
+    },
+    "location": "koreaCentral",
+    "identity": {
+      "type": "SystemAssigned"
+    }
+  }

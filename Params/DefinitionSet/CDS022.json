@@ -1,0 +1,119 @@
+{
+    "name": "CDS022-Auth-Mgmt-User-Accounts",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+      "policyType": "Custom",
+      "displayName": "CDS022-Auth-Mgmt-User-Accounts",
+      "description": "When accessing Azure Resources, only approved applications and secure protocols should be used... initiative policy",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "SPC Common"
+      },
+      "parameters": {
+        "Effect-AppServiceLogsEnabled": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "requiredRetentionDays-AppServiceLogsEnabled": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Required retention (days)",
+            "description": "The required resource logs retention in days"
+          },
+          "defaultValue": "365"
+        },
+        "Effect-ResourceLogsKeyVault": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "requiredRetentionDays-ResourceLogsKeyVault": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Required retention (days)",
+            "description": "The required resource logs retention in days"
+          },
+          "defaultValue": "365"
+        },
+        "Effect-ResourceLogsLogicApps": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of this policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        },
+        "requiredRetentionDays-ResourceLogsLogicApps": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Required retention (days)",
+            "description": "The required resource logs retention in days"
+          },
+          "defaultValue": "365"
+        }
+      },
+      "policyDefinitions": [
+        {
+          "policyDefinitionReferenceId": "AppServiceLogsEnabled",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/91a78b24-f231-4a8a-8da9-02c35b2b6510",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-AppServiceLogsEnabled')]"
+            },
+            "requiredRetentionDays": {
+              "value": "[[parameters('requiredRetentionDays-AppServiceLogsEnabled')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "ResourceLogsKeyVault",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/cf820ca0-f99e-4f3e-84fb-66e913812d21",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-ResourceLogsKeyVault')]"
+            },
+            "requiredRetentionDays": {
+              "value": "[[parameters('requiredRetentionDays-ResourceLogsKeyVault')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "ResourceLogsLogicApps",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/34f95f76-5386-4de7-b824-0d8478470c9d",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-ResourceLogsLogicApps')]"
+            },
+            "requiredRetentionDays": {
+              "value": "[[parameters('requiredRetentionDays-ResourceLogsLogicApps')]"
+            }
+          },
+          "groupNames": []
+        }
+      ],
+      "policyDefinitionGroups": null
+    }
+  }

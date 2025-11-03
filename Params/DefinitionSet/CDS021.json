@@ -1,0 +1,95 @@
+{
+    "name": "CDS021-Auth-Mgmt-User-Accounts",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+        "policyType": "Custom",
+        "displayName": "CDS021-Auth-Mgmt-User-Accounts",
+        "description": "When accessing Azure Resources, only approved applications and secure protocols are allowed according to the initiative policy.",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "SPC Common"
+        },
+        "parameters": {
+            "Effect-AzureDefenderForServers": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "IncludeArcMachines-WindowsDefenderExploitGuard": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Include Arc connected servers",
+                    "description": "By selecting this option, you agree to be charged monthly per Arc connected machine.",
+                    "portalReview": "true"
+                },
+                "allowedValues": [
+                    "true",
+                    "false"
+                ],
+                "defaultValue": "false"
+            },
+            "NotAvailableMachineState-WindowsDefenderExploitGuard": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Status if Windows Defender is not available on machine",
+                    "description": "Windows Defender Exploit Guard is only available starting with Windows 10/Windows Server with update 1709. Setting this value to 'Non-Compliant' shows machines with older versions on which Windows Defender Exploit Guard is not available (such as Windows Server 2012 R2) as non-compliant. Setting this value to 'Compliant' shows these machines as compliant."
+                },
+                "allowedValues": [
+                    "Compliant",
+                    "Non-Compliant"
+                ],
+                "defaultValue": "Compliant"
+            },
+            "Effect-WindowsDefenderExploitGuard": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            }
+        },
+        "policyDefinitions": [
+            {
+                "policyDefinitionReferenceId": "AzureDefenderForServers",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4da35fc9-c9e7-4960-aec9-797fe7d9051d",
+                "parameters": {
+                    "effect": {
+                        "value": "[[parameters('Effect-AzureDefenderForServers')]"
+                    }
+                },
+                "groupNames": []
+            },
+            {
+                "policyDefinitionReferenceId": "WindowsDefenderExploitGuard",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/bed48b13-6647-468e-aa2f-1af1d3f4dd40",
+                "parameters": {
+                    "IncludeArcMachines": {
+                        "value": "[[parameters('IncludeArcMachines-WindowsDefenderExploitGuard')]"
+                    },
+                    "NotAvailableMachineState": {
+                        "value": "[[parameters('NotAvailableMachineState-WindowsDefenderExploitGuard')]"
+                    },
+                    "effect": {
+                        "value": "[[parameters('Effect-WindowsDefenderExploitGuard')]"
+                    }
+                },
+                "groupNames": []
+            }
+        ],
+        "policyDefinitionGroups": null
+    }
+}

@@ -1,0 +1,81 @@
+{
+    "name": "CDS003",
+    "type": "Microsoft.Authorization/policyAssignments",
+    "apiVersion": "2019-09-01",
+    "properties": {
+        "description": "This initiative policy definition is used to deploy the policies for the Cloud Container and Server",
+        "displayName": "[CDS003] Defeder for Cloud Container and Server",
+        "notScopes": [],
+        "parameters": {
+            "Effect-ConfAKSClustersEnableDedender": {
+                "value": "DeployIfNotExists"
+            },
+            "lawResourceId-ConfAKSClustersEnableDedender": {
+                "value": ""
+            },
+            "Effect-ConfAzArcAKSClusterMDCextention": {
+                "value": "DeployIfNotExists"
+            },
+            "lawResourceId-ConfAzArcAKSClusterMDCextention": {
+                "value": ""
+            },
+            "excludedDistributions-ConfAzArcAKSClusterMDCextention": {
+                "value": [
+                    "aks",
+                    "aks_management",
+                    "eks",
+                    "gke"
+                ]
+            },
+            "Effect-ConfAzArcAKSClusterAzPolicyExtention": {
+                "value": "DeployIfNotExists"
+            },
+            "Effect-DeployAzPolicyAddonAKSCluster": {
+                "value": "DeployIfNotExists"
+            },
+            "Effect-DepolyMDEagentWinVM": {
+                "value": "DeployIfNotExists"
+            },
+            "PublisherExclude-DepolyMDEagentWinVM": {
+                "value": []
+            },
+            "ImageIdExclude-DepolyMDEagentWinVM": {
+                "value": []
+            },
+            "Effect-DepolyMDEagentLinuxVM": {
+                "value": "DeployIfNotExists"
+            },
+            "PublisherExclude-DepolyMDEagentLinuxVM": {
+                "value": []
+            },
+            "ImageIdExclude-DepolyMDEagentLinuxVM": {
+                "value": []
+            },
+            "Effect-ConfIntegrationMDEMDC-WDATP": {
+                "value": "DeployIfNotExists"
+            },
+            "Effect-SetupSubscriptiontoVulnerabilityAssessSolution": {
+                "value": "DeployIfNotExists"
+            },
+            "SelectedProvider-SetupSubscriptiontoVulnerabilityAssessSolution": {
+                "value": "MdeTvm"
+            },
+            "IncludeArcMachines-WinVmMdUpdateSingnatureWitinDay": {
+                "value": "False"
+            },
+            "effect-WinVmMdUpdateSingnatureWitinDay": {
+                "value": "AuditIfNotExists"
+            },
+            "effect-AzDefenderAppShouldBeEnabled": {
+                "value": "AuditIfNotExists"
+            }
+        },
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/CDS003",
+        "scope": null,
+        "enforcementMode": "Default"
+    },
+    "location": "koreaCentral",
+    "identity": {
+      "type": "SystemAssigned"
+    }
+}

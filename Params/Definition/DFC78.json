@@ -1,0 +1,46 @@
+{
+  "name": "DFC78",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "displayName": "Event Hub should use a virtual network service endpoint",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "This policy audits any Event Hub not configured to use a virtual network service endpoint.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SPC Common"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.EventHub/namespaces"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.EventHub/namespaces/virtualNetworkRules",
+          "existenceCondition": {
+            "field": "Microsoft.EventHub/namespaces/virtualNetworkRules/virtualNetworkSubnetId",
+            "exists": "true"
+          }
+        }
+      }
+    }
+  }
+}

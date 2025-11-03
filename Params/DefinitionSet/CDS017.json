@@ -1,0 +1,42 @@
+{
+    "name": "CDS017-Auth-Mgmt-User-Accounts",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+      "policyType": "Custom",
+      "displayName": "CDS017-Auth-Mgmt-User-Accounts",
+      "description": "When accessing Azure Resources, only approved applications and secure protocols should be used... initiative policy",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "SPC Common"
+      },
+      "parameters": {
+        "Effect-AzureBackupEnabledVMS": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "AuditIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "AuditIfNotExists"
+        }
+      },
+      "policyDefinitions": [
+        {
+          "policyDefinitionReferenceId": "AzureBackupEnabledVMS",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/013e242c-8828-4970-87b3-ab247555486d",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('Effect-AzureBackupEnabledVMS')]"
+            }
+          },
+          "groupNames": []
+        }
+      ],
+      "policyDefinitionGroups": null
+    }
+  }
