@@ -73,21 +73,19 @@ jobs:
           cd Params/Definition
           POLICIES_TO_DEPLOY="${{ github.event.inputs.policy_definitions_to_deploy || 'all' }}"
           
-          # Create dynamic bicepparam file
-          cat > dynamic-definitions.bicepparam << 'EOF'
-          using '../../policyDefinition.bicep'
+          # Start creating the bicepparam file
+          echo "using '../../policyDefinition.bicep'" > dynamic-definitions.bicepparam
+          echo "" >> dynamic-definitions.bicepparam
+          echo "param CustomPolicyDefinitionsArray = [" >> dynamic-definitions.bicepparam
           
-          param CustomPolicyDefinitionsArray = [
-          EOF
-          
-          # Build array of policy definitions
-          policy_entries=()
+          # Create a temporary file to collect entries
+          temp_file=$(mktemp)
           
           if [[ "$POLICIES_TO_DEPLOY" == "all" ]]; then
             # Deploy all policies
             for file in DFC*.json; do
               if [[ -f "$file" ]]; then
-                policy_entries+=("  { libDefinition: loadJsonContent('$file') }")
+                echo "  { libDefinition: loadJsonContent('$file') }" >> "$temp_file"
               fi
             done
           else
@@ -96,23 +94,33 @@ jobs:
             for policy in "${POLICY_ARRAY[@]}"; do
               policy=$(echo "$policy" | xargs) # trim whitespace
               if [[ -f "${policy}.json" ]]; then
-                policy_entries+=("  { libDefinition: loadJsonContent('${policy}.json') }")
+                echo "  { libDefinition: loadJsonContent('${policy}.json') }" >> "$temp_file"
               else
                 echo "⚠️ Warning: ${policy}.json not found"
               fi
             done
           fi
           
-          # Write policy entries to file
-          for i in "${!policy_entries[@]}"; do
-            if [[ $i -lt $((${#policy_entries[@]} - 1)) ]]; then
-              echo "${policy_entries[i]}," >> dynamic-definitions.bicepparam
-            else
-              echo "${policy_entries[i]}" >> dynamic-definitions.bicepparam
-            fi
-          done
+          # Add entries with proper comma separation
+          total_lines=$(wc -l < "$temp_file")
+          current_line=0
           
+          while IFS= read -r line; do
+            ((current_line++))
+            if [[ $current_line -eq $total_lines ]]; then
+              # Last line, no comma
+              echo "$line" >> dynamic-definitions.bicepparam
+            else
+              # Not last line, add comma
+              echo "$line," >> dynamic-definitions.bicepparam
+            fi
+          done < "$temp_file"
+          
+          # Close the array
           echo "]" >> dynamic-definitions.bicepparam
+          
+          # Clean up temp file
+          rm "$temp_file"
           
           echo "📄 Generated parameter file:"
           cat dynamic-definitions.bicepparam
