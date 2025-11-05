@@ -80,37 +80,38 @@ jobs:
           param CustomPolicyDefinitionsArray = [
           EOF
           
+          # Build array of policy definitions
+          policy_entries=()
+          
           if [[ "$POLICIES_TO_DEPLOY" == "all" ]]; then
             # Deploy all policies
-            first=true
             for file in DFC*.json; do
               if [[ -f "$file" ]]; then
-                if [[ "$first" == "false" ]]; then
-                  echo "," >> dynamic-definitions.bicepparam
-                fi
-                echo -n "  { libDefinition: loadJsonContent('$file') }" >> dynamic-definitions.bicepparam
-                first=false
+                policy_entries+=("  { libDefinition: loadJsonContent('$file') }")
               fi
             done
           else
             # Deploy specific policies
             IFS=',' read -ra POLICY_ARRAY <<< "$POLICIES_TO_DEPLOY"
-            first=true
             for policy in "${POLICY_ARRAY[@]}"; do
               policy=$(echo "$policy" | xargs) # trim whitespace
               if [[ -f "${policy}.json" ]]; then
-                if [[ "$first" == "false" ]]; then
-                  echo "," >> dynamic-definitions.bicepparam
-                fi
-                echo -n "  { libDefinition: loadJsonContent('${policy}.json') }" >> dynamic-definitions.bicepparam
-                first=false
+                policy_entries+=("  { libDefinition: loadJsonContent('${policy}.json') }")
               else
                 echo "⚠️ Warning: ${policy}.json not found"
               fi
             done
           fi
           
-          echo "" >> dynamic-definitions.bicepparam
+          # Write policy entries to file
+          for i in "${!policy_entries[@]}"; do
+            if [[ $i -lt $((${#policy_entries[@]} - 1)) ]]; then
+              echo "${policy_entries[i]}," >> dynamic-definitions.bicepparam
+            else
+              echo "${policy_entries[i]}" >> dynamic-definitions.bicepparam
+            fi
+          done
+          
           echo "]" >> dynamic-definitions.bicepparam
           
           echo "📄 Generated parameter file:"
