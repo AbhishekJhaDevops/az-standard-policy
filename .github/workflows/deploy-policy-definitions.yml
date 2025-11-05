@@ -1,4 +1,3 @@
-# .github/workflows/deploy-policy-definitions.yml
 name: Deploy Azure Policy Definitions
 
 on:
@@ -27,8 +26,8 @@ on:
     branches:
       - main
     paths:
-      - 'AzurePolicyV2/policyDefinition.bicep'
-      - 'AzurePolicyV2/Params/Definition/**'
+      - 'policyDefinition.bicep'
+      - 'Params/Definition/**'
 
 env:
   AZURE_RESOURCE_MANAGER_CONNECTION_NAME: ${{ secrets.AZURE_SERVICE_CONNECTION }}
@@ -48,7 +47,7 @@ jobs:
 
       - name: Validate Bicep Templates
         run: |
-          az bicep build --file AzurePolicyV2/policyDefinition.bicep
+          az bicep build --file policyDefinition.bicep
           echo "✅ Bicep template validation successful"
 
   deploy-definitions:
@@ -71,7 +70,7 @@ jobs:
 
       - name: Generate Dynamic Parameter File
         run: |
-          cd AzurePolicyV2/Params/Definition
+          cd Params/Definition
           POLICIES_TO_DEPLOY="${{ github.event.inputs.policy_definitions_to_deploy || 'all' }}"
           
           # Create dynamic bicepparam file
@@ -121,8 +120,8 @@ jobs:
         run: |
           az deployment mg create \
             --management-group-id ${{ github.event.inputs.management_group_id || vars.DEFAULT_MANAGEMENT_GROUP_ID }} \
-            --template-file AzurePolicyV2/policyDefinition.bicep \
-            --parameters AzurePolicyV2/Params/Definition/dynamic-definitions.bicepparam \
+            --template-file policyDefinition.bicep \
+            --parameters Params/Definition/dynamic-definitions.bicepparam \
             --name "policy-definitions-$(date +%Y%m%d-%H%M%S)" \
             --location "East US"
 
