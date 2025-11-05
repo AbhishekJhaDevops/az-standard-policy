@@ -1,4 +1,3 @@
-# .github/workflows/deploy-policy-assignments.yml
 name: Deploy Azure Policy Assignments
 
 on:
@@ -40,8 +39,8 @@ on:
     branches:
       - main
     paths:
-      - 'AzurePolicyV2/policyAssignment.bicep'
-      - 'AzurePolicyV2/Params/Assignment/**'
+      - 'policyAssignment.bicep'
+      - 'Params/Assignment/**'
 
 env:
   AZURE_RESOURCE_MANAGER_CONNECTION_NAME: ${{ secrets.AZURE_SERVICE_CONNECTION }}
@@ -61,7 +60,7 @@ jobs:
 
       - name: Validate Bicep Templates
         run: |
-          az bicep build --file AzurePolicyV2/policyAssignment.bicep
+          az bicep build --file policyAssignment.bicep
           echo "✅ Bicep template validation successful"
 
       - name: Validate Policy Definitions Exist
@@ -105,48 +104,40 @@ jobs:
 
       - name: Generate Dynamic Parameter File for Custom Assignments
         run: |
-          cd AzurePolicyV2/Params/Assignment
+          cd Params/Assignment
           ASSIGNMENTS_TO_DEPLOY="${{ github.event.inputs.assignments_to_deploy || 'all' }}"
           
-          # Create dynamic bicepparam file for custom assignments
-          cat > dynamic-custom-assignments.bicepparam << EOF
-          using '../../policyAssignment.bicep'
-          
-          param managementGroupName = '${{ env.SOURCE_MANAGEMENT_GROUP_SCOPE }}/providers/Microsoft.Authorization/policySetDefinitions/'
-          param PolicyAssignmentArray = [
-          EOF
+          # Start creating the bicepparam file for custom assignments
+          echo "using '../../policyAssignment.bicep'" > dynamic-custom-assignments.bicepparam
+          echo "" >> dynamic-custom-assignments.bicepparam
+          echo "param managementGroupName = '${{ env.SOURCE_MANAGEMENT_GROUP_SCOPE }}/providers/Microsoft.Authorization/policySetDefinitions/'" >> dynamic-custom-assignments.bicepparam
+          echo "param PolicyAssignmentArray = [" >> dynamic-custom-assignments.bicepparam
           
           if [[ "$ASSIGNMENTS_TO_DEPLOY" == "all" ]]; then
-            # Deploy all custom assignments
-            first=true
+            # Deploy all custom assignments - NO COMMAS between objects
             for file in CDS*.json; do
               if [[ -f "$file" ]]; then
-                if [[ "$first" == "false" ]]; then
-                  echo "," >> dynamic-custom-assignments.bicepparam
-                fi
-                echo -n "  { libDefinition: loadJsonContent('$file') }" >> dynamic-custom-assignments.bicepparam
-                first=false
+                echo "  {" >> dynamic-custom-assignments.bicepparam
+                echo "    libDefinition: loadJsonContent('$file')" >> dynamic-custom-assignments.bicepparam
+                echo "  }" >> dynamic-custom-assignments.bicepparam
               fi
             done
           else
-            # Deploy specific assignments
+            # Deploy specific assignments - NO COMMAS between objects
             IFS=',' read -ra ASSIGNMENTS_ARRAY <<< "$ASSIGNMENTS_TO_DEPLOY"
-            first=true
             for assignment in "${ASSIGNMENTS_ARRAY[@]}"; do
               assignment=$(echo "$assignment" | xargs) # trim whitespace
               if [[ -f "${assignment}.json" ]]; then
-                if [[ "$first" == "false" ]]; then
-                  echo "," >> dynamic-custom-assignments.bicepparam
-                fi
-                echo -n "  { libDefinition: loadJsonContent('${assignment}.json') }" >> dynamic-custom-assignments.bicepparam
-                first=false
+                echo "  {" >> dynamic-custom-assignments.bicepparam
+                echo "    libDefinition: loadJsonContent('${assignment}.json')" >> dynamic-custom-assignments.bicepparam
+                echo "  }" >> dynamic-custom-assignments.bicepparam
               else
                 echo "⚠️ Warning: ${assignment}.json not found"
               fi
             done
           fi
           
-          echo "" >> dynamic-custom-assignments.bicepparam
+          # Close the array
           echo "]" >> dynamic-custom-assignments.bicepparam
           
           echo "📄 Generated parameter file:"
@@ -156,8 +147,8 @@ jobs:
         run: |
           az deployment mg create \
             --management-group-id ${{ github.event.inputs.target_management_group_id }} \
-            --template-file AzurePolicyV2/policyAssignment.bicep \
-            --parameters AzurePolicyV2/Params/Assignment/dynamic-custom-assignments.bicepparam \
+            --template-file policyAssignment.bicep \
+            --parameters Params/Assignment/dynamic-custom-assignments.bicepparam \
             --name "custom-policy-assignments-$(date +%Y%m%d-%H%M%S)" \
             --location "East US"
 
@@ -182,48 +173,40 @@ jobs:
 
       - name: Generate Dynamic Parameter File for Built-in Assignments
         run: |
-          cd AzurePolicyV2/Params/Assignment
+          cd Params/Assignment
           ASSIGNMENTS_TO_DEPLOY="${{ github.event.inputs.assignments_to_deploy || 'all' }}"
           
-          # Create dynamic bicepparam file for built-in assignments
-          cat > dynamic-builtin-assignments.bicepparam << EOF
-          using '../../policyAssignment.bicep'
-          
-          param managementGroupName = ''
-          param PolicyAssignmentArray = [
-          EOF
+          # Start creating the bicepparam file for built-in assignments
+          echo "using '../../policyAssignment.bicep'" > dynamic-builtin-assignments.bicepparam
+          echo "" >> dynamic-builtin-assignments.bicepparam
+          echo "param managementGroupName = ''" >> dynamic-builtin-assignments.bicepparam
+          echo "param PolicyAssignmentArray = [" >> dynamic-builtin-assignments.bicepparam
           
           if [[ "$ASSIGNMENTS_TO_DEPLOY" == "all" ]]; then
-            # Deploy all built-in assignments
-            first=true
+            # Deploy all built-in assignments - NO COMMAS between objects
             for file in BD*.json; do
               if [[ -f "$file" ]]; then
-                if [[ "$first" == "false" ]]; then
-                  echo "," >> dynamic-builtin-assignments.bicepparam
-                fi
-                echo -n "  { libDefinition: loadJsonContent('$file') }" >> dynamic-builtin-assignments.bicepparam
-                first=false
+                echo "  {" >> dynamic-builtin-assignments.bicepparam
+                echo "    libDefinition: loadJsonContent('$file')" >> dynamic-builtin-assignments.bicepparam
+                echo "  }" >> dynamic-builtin-assignments.bicepparam
               fi
             done
           else
-            # Deploy specific assignments
+            # Deploy specific assignments - NO COMMAS between objects
             IFS=',' read -ra ASSIGNMENTS_ARRAY <<< "$ASSIGNMENTS_TO_DEPLOY"
-            first=true
             for assignment in "${ASSIGNMENTS_ARRAY[@]}"; do
               assignment=$(echo "$assignment" | xargs) # trim whitespace
               if [[ -f "${assignment}.json" ]]; then
-                if [[ "$first" == "false" ]]; then
-                  echo "," >> dynamic-builtin-assignments.bicepparam
-                fi
-                echo -n "  { libDefinition: loadJsonContent('${assignment}.json') }" >> dynamic-builtin-assignments.bicepparam
-                first=false
+                echo "  {" >> dynamic-builtin-assignments.bicepparam
+                echo "    libDefinition: loadJsonContent('${assignment}.json')" >> dynamic-builtin-assignments.bicepparam
+                echo "  }" >> dynamic-builtin-assignments.bicepparam
               else
                 echo "⚠️ Warning: ${assignment}.json not found"
               fi
             done
           fi
           
-          echo "" >> dynamic-builtin-assignments.bicepparam
+          # Close the array
           echo "]" >> dynamic-builtin-assignments.bicepparam
           
           echo "📄 Generated parameter file:"
@@ -233,8 +216,8 @@ jobs:
         run: |
           az deployment mg create \
             --management-group-id ${{ github.event.inputs.target_management_group_id }} \
-            --template-file AzurePolicyV2/policyAssignment.bicep \
-            --parameters AzurePolicyV2/Params/Assignment/dynamic-builtin-assignments.bicepparam \
+            --template-file policyAssignment.bicep \
+            --parameters Params/Assignment/dynamic-builtin-assignments.bicepparam \
             --name "builtin-policy-assignments-$(date +%Y%m%d-%H%M%S)" \
             --location "East US"
 

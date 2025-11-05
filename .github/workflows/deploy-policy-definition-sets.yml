@@ -1,4 +1,3 @@
-# .github/workflows/deploy-policy-definition-sets.yml
 name: Deploy Azure Policy Definition Sets
 
 on:
@@ -32,8 +31,8 @@ on:
     branches:
       - main
     paths:
-      - 'AzurePolicyV2/policyDefinitionSet.bicep'
-      - 'AzurePolicyV2/Params/DefinitionSet/**'
+      - 'policyDefinitionSet.bicep'
+      - 'Params/DefinitionSet/**'
 
 env:
   AZURE_RESOURCE_MANAGER_CONNECTION_NAME: ${{ secrets.AZURE_SERVICE_CONNECTION }}
@@ -53,7 +52,7 @@ jobs:
 
       - name: Validate Bicep Templates
         run: |
-          az bicep build --file AzurePolicyV2/policyDefinitionSet.bicep
+          az bicep build --file policyDefinitionSet.bicep
           echo "✅ Bicep template validation successful"
 
       - name: Validate Custom Policies Exist
@@ -91,49 +90,41 @@ jobs:
 
       - name: Generate Dynamic Parameter File
         run: |
-          cd AzurePolicyV2/Params/DefinitionSet
+          cd Params/DefinitionSet
           SETS_TO_DEPLOY="${{ github.event.inputs.definition_sets_to_deploy || 'all' }}"
           
-          # Create dynamic bicepparam file
-          cat > dynamic-definition-sets.bicepparam << EOF
-          using '../../policyDefinitionSet.bicep'
-          
-          param managementGroupName = '${{ env.MANAGEMENT_GROUP_SCOPE }}/providers/Microsoft.Authorization/policyDefinitions/'
-          param policyDefinitionPrefix = '${{ env.POLICY_DEF_PREFIX }}'
-          param PolicySetDefinitionsArray = [
-          EOF
+          # Start creating the bicepparam file
+          echo "using '../../policyDefinitionSet.bicep'" > dynamic-definition-sets.bicepparam
+          echo "" >> dynamic-definition-sets.bicepparam
+          echo "param managementGroupName = '${{ env.MANAGEMENT_GROUP_SCOPE }}/providers/Microsoft.Authorization/policyDefinitions/'" >> dynamic-definition-sets.bicepparam
+          echo "param policyDefinitionPrefix = '${{ env.POLICY_DEF_PREFIX }}'" >> dynamic-definition-sets.bicepparam
+          echo "param PolicySetDefinitionsArray = [" >> dynamic-definition-sets.bicepparam
           
           if [[ "$SETS_TO_DEPLOY" == "all" ]]; then
-            # Deploy all definition sets
-            first=true
+            # Deploy all definition sets - NO COMMAS between objects
             for file in CDS*.json; do
               if [[ -f "$file" ]]; then
-                if [[ "$first" == "false" ]]; then
-                  echo "," >> dynamic-definition-sets.bicepparam
-                fi
-                echo -n "  { libSetDefinition: loadJsonContent('$file') }" >> dynamic-definition-sets.bicepparam
-                first=false
+                echo "  {" >> dynamic-definition-sets.bicepparam
+                echo "    libSetDefinition: loadJsonContent('$file')" >> dynamic-definition-sets.bicepparam
+                echo "  }" >> dynamic-definition-sets.bicepparam
               fi
             done
           else
-            # Deploy specific definition sets
+            # Deploy specific definition sets - NO COMMAS between objects
             IFS=',' read -ra SETS_ARRAY <<< "$SETS_TO_DEPLOY"
-            first=true
             for set in "${SETS_ARRAY[@]}"; do
               set=$(echo "$set" | xargs) # trim whitespace
               if [[ -f "${set}.json" ]]; then
-                if [[ "$first" == "false" ]]; then
-                  echo "," >> dynamic-definition-sets.bicepparam
-                fi
-                echo -n "  { libSetDefinition: loadJsonContent('${set}.json') }" >> dynamic-definition-sets.bicepparam
-                first=false
+                echo "  {" >> dynamic-definition-sets.bicepparam
+                echo "    libSetDefinition: loadJsonContent('${set}.json')" >> dynamic-definition-sets.bicepparam
+                echo "  }" >> dynamic-definition-sets.bicepparam
               else
                 echo "⚠️ Warning: ${set}.json not found"
               fi
             done
           fi
           
-          echo "" >> dynamic-definition-sets.bicepparam
+          # Close the array
           echo "]" >> dynamic-definition-sets.bicepparam
           
           echo "📄 Generated parameter file:"
@@ -143,8 +134,8 @@ jobs:
         run: |
           az deployment mg create \
             --management-group-id ${{ github.event.inputs.management_group_id || vars.DEFAULT_MANAGEMENT_GROUP_ID }} \
-            --template-file AzurePolicyV2/policyDefinitionSet.bicep \
-            --parameters AzurePolicyV2/Params/DefinitionSet/dynamic-definition-sets.bicepparam \
+            --template-file policyDefinitionSet.bicep \
+            --parameters Params/DefinitionSet/dynamic-definition-sets.bicepparam \
             --name "policy-definition-sets-$(date +%Y%m%d-%H%M%S)" \
             --location "East US"
 
