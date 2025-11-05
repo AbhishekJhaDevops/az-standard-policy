@@ -96,7 +96,7 @@ jobs:
           # Start creating the bicepparam file
           echo "using '../../policyDefinitionSet.bicep'" > dynamic-definition-sets.bicepparam
           echo "" >> dynamic-definition-sets.bicepparam
-          echo "param managementGroupName = '${{ env.MANAGEMENT_GROUP_SCOPE }}/providers/Microsoft.Authorization/policyDefinitions/'" >> dynamic-definition-sets.bicepparam
+          echo "param managementGroupName = '${{ env.MANAGEMENT_GROUP_SCOPE }}'" >> dynamic-definition-sets.bicepparam
           echo "param policyDefinitionPrefix = '${{ env.POLICY_DEF_PREFIX }}'" >> dynamic-definition-sets.bicepparam
           echo "param PolicySetDefinitionsArray = [" >> dynamic-definition-sets.bicepparam
           

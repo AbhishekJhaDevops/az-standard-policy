@@ -30,12 +30,6 @@ param PolicySetDefinitionsArray = [
     libSetDefinition: loadJsonContent('CDS006.json')
   }
   {
-    libSetDefinition: loadJsonContent('CDS005.json')
-  }
-  {
-    libSetDefinition: loadJsonContent('CDS006.json')
-  }
-  {
     libSetDefinition: loadJsonContent('CDS007.json')
   }
   {
