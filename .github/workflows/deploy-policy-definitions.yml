@@ -78,49 +78,32 @@ jobs:
           echo "" >> dynamic-definitions.bicepparam
           echo "param CustomPolicyDefinitionsArray = [" >> dynamic-definitions.bicepparam
           
-          # Create a temporary file to collect entries
-          temp_file=$(mktemp)
-          
           if [[ "$POLICIES_TO_DEPLOY" == "all" ]]; then
-            # Deploy all policies
+            # Deploy all policies - NO COMMAS between objects
             for file in DFC*.json; do
               if [[ -f "$file" ]]; then
-                echo "  { libDefinition: loadJsonContent('$file') }" >> "$temp_file"
+                echo "  {" >> dynamic-definitions.bicepparam
+                echo "    libDefinition: loadJsonContent('$file')" >> dynamic-definitions.bicepparam
+                echo "  }" >> dynamic-definitions.bicepparam
               fi
             done
           else
-            # Deploy specific policies
+            # Deploy specific policies - NO COMMAS between objects
             IFS=',' read -ra POLICY_ARRAY <<< "$POLICIES_TO_DEPLOY"
             for policy in "${POLICY_ARRAY[@]}"; do
               policy=$(echo "$policy" | xargs) # trim whitespace
               if [[ -f "${policy}.json" ]]; then
-                echo "  { libDefinition: loadJsonContent('${policy}.json') }" >> "$temp_file"
+                echo "  {" >> dynamic-definitions.bicepparam
+                echo "    libDefinition: loadJsonContent('${policy}.json')" >> dynamic-definitions.bicepparam
+                echo "  }" >> dynamic-definitions.bicepparam
               else
                 echo "⚠️ Warning: ${policy}.json not found"
               fi
             done
           fi
           
-          # Add entries with proper comma separation
-          total_lines=$(wc -l < "$temp_file")
-          current_line=0
-          
-          while IFS= read -r line; do
-            ((current_line++))
-            if [[ $current_line -eq $total_lines ]]; then
-              # Last line, no comma
-              echo "$line" >> dynamic-definitions.bicepparam
-            else
-              # Not last line, add comma
-              echo "$line," >> dynamic-definitions.bicepparam
-            fi
-          done < "$temp_file"
-          
           # Close the array
           echo "]" >> dynamic-definitions.bicepparam
-          
-          # Clean up temp file
-          rm "$temp_file"
           
           echo "📄 Generated parameter file:"
           cat dynamic-definitions.bicepparam
