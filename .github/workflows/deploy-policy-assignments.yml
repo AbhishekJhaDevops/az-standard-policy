@@ -110,7 +110,7 @@ jobs:
           # Start creating the bicepparam file for custom assignments
           echo "using '../../policyAssignment.bicep'" > dynamic-custom-assignments.bicepparam
           echo "" >> dynamic-custom-assignments.bicepparam
-          echo "param managementGroupName = '${{ env.SOURCE_MANAGEMENT_GROUP_SCOPE }}/providers/Microsoft.Authorization/policySetDefinitions/'" >> dynamic-custom-assignments.bicepparam
+          echo "param managementGroupName = '${{ env.SOURCE_MANAGEMENT_GROUP_SCOPE }}'" >> dynamic-custom-assignments.bicepparam
           echo "param PolicyAssignmentArray = [" >> dynamic-custom-assignments.bicepparam
           
           if [[ "$ASSIGNMENTS_TO_DEPLOY" == "all" ]]; then
