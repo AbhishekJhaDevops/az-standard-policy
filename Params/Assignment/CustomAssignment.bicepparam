@@ -5,7 +5,7 @@
 using '../../policyAssignment.bicep'
 
 @description('Management group name to assign the policy')
-param managementGroupName = '/providers/Microsoft.Management/managementGroups/B2B'
+param managementGroupName = ''
 
 @description('Array value for policy assignment.Contains name and path of the policy assignment json file')
 param PolicyAssignmentArray = [
