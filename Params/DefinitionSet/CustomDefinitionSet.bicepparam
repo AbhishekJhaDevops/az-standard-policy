@@ -6,7 +6,7 @@
 using '../../policyDefinitionSet.bicep'
 
 @description('Management group name where custom policies has been created')
-param managementGroupName = '/providers/Microsoft.Management/managementGroups/alzpoc'
+param managementGroupName = ''
 @description('Prefix for custom policy definition name.')
 param policyDefinitionPrefix = 'DFC'
 @description('Array value for policy definitionSet.Contains name and path of the policy definitionSet json file')

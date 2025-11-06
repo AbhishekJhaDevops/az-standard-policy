@@ -12,9 +12,13 @@ on:
         - dev
         - test
         - prod
-      management_group_id:
-        description: 'Management Group ID (e.g., mg-corp)'
+      target_management_group_id:
+        description: 'Target Management Group ID (where definition sets will be deployed)'
         required: true
+        type: string
+      source_management_group_id:
+        description: 'Source Management Group ID (where custom policy definitions are stored)'
+        required: false
         type: string
       policy_definition_prefix:
         description: 'Custom Policy Definition Prefix'
@@ -57,13 +61,13 @@ jobs:
 
       - name: Validate Custom Policies Exist
         run: |
-          MGMT_GROUP_ID="${{ github.event.inputs.management_group_id || vars.DEFAULT_MANAGEMENT_GROUP_ID }}"
+          SOURCE_MGMT_GROUP_ID="${{ github.event.inputs.source_management_group_id || github.event.inputs.target_management_group_id || vars.DEFAULT_MANAGEMENT_GROUP_ID }}"
           
-          echo "🔍 Checking if required custom policies exist..."
-          CUSTOM_POLICIES=$(az policy definition list --management-group $MGMT_GROUP_ID --query "[?policyType=='Custom'].name" --output tsv)
+          echo "🔍 Checking if required custom policies exist in source management group: $SOURCE_MGMT_GROUP_ID"
+          CUSTOM_POLICIES=$(az policy definition list --management-group $SOURCE_MGMT_GROUP_ID --query "[?policyType=='Custom'].name" --output tsv)
           
           if [[ -z "$CUSTOM_POLICIES" ]]; then
-            echo "⚠️ Warning: No custom policies found. Please deploy policy definitions first."
+            echo "⚠️ Warning: No custom policies found in source management group."
             echo "Available built-in policies will still work for definition sets."
           else
             echo "✅ Found custom policies: $CUSTOM_POLICIES"
@@ -84,8 +88,10 @@ jobs:
 
       - name: Set Variables
         run: |
-          MGMT_GROUP_ID="${{ github.event.inputs.management_group_id || vars.DEFAULT_MANAGEMENT_GROUP_ID }}"
-          echo "MANAGEMENT_GROUP_SCOPE=${{ env.MANAGEMENT_GROUP_PREFIX }}${MGMT_GROUP_ID}" >> $GITHUB_ENV
+          TARGET_MGMT_GROUP_ID="${{ github.event.inputs.target_management_group_id || vars.DEFAULT_MANAGEMENT_GROUP_ID }}"
+          SOURCE_MGMT_GROUP_ID="${{ github.event.inputs.source_management_group_id || github.event.inputs.target_management_group_id || vars.DEFAULT_MANAGEMENT_GROUP_ID }}"
+          echo "TARGET_MANAGEMENT_GROUP_SCOPE=${{ env.MANAGEMENT_GROUP_PREFIX }}${TARGET_MGMT_GROUP_ID}" >> $GITHUB_ENV
+          echo "SOURCE_MANAGEMENT_GROUP_SCOPE=${{ env.MANAGEMENT_GROUP_PREFIX }}${SOURCE_MGMT_GROUP_ID}" >> $GITHUB_ENV
           echo "POLICY_DEF_PREFIX=${{ github.event.inputs.policy_definition_prefix || 'DFC' }}" >> $GITHUB_ENV
 
       - name: Generate Dynamic Parameter File
@@ -96,7 +102,7 @@ jobs:
           # Start creating the bicepparam file
           echo "using '../../policyDefinitionSet.bicep'" > dynamic-definition-sets.bicepparam
           echo "" >> dynamic-definition-sets.bicepparam
-          echo "param managementGroupName = '${{ env.MANAGEMENT_GROUP_SCOPE }}'" >> dynamic-definition-sets.bicepparam
+          echo "param managementGroupName = '${{ env.SOURCE_MANAGEMENT_GROUP_SCOPE }}'" >> dynamic-definition-sets.bicepparam
           echo "param policyDefinitionPrefix = '${{ env.POLICY_DEF_PREFIX }}'" >> dynamic-definition-sets.bicepparam
           echo "param PolicySetDefinitionsArray = [" >> dynamic-definition-sets.bicepparam
           
@@ -133,7 +139,7 @@ jobs:
       - name: Deploy Policy Definition Sets
         run: |
           az deployment mg create \
-            --management-group-id ${{ github.event.inputs.management_group_id || vars.DEFAULT_MANAGEMENT_GROUP_ID }} \
+            --management-group-id ${{ github.event.inputs.target_management_group_id || vars.DEFAULT_MANAGEMENT_GROUP_ID }} \
             --template-file policyDefinitionSet.bicep \
             --parameters Params/DefinitionSet/dynamic-definition-sets.bicepparam \
             --name "policy-definition-sets-$(date +%Y%m%d-%H%M%S)" \
@@ -141,5 +147,7 @@ jobs:
 
       - name: Verification
         run: |
-          echo "✅ Policy definition sets deployed successfully to ${{ env.MANAGEMENT_GROUP_SCOPE }}"
-          az policy set-definition list --management-group ${{ github.event.inputs.management_group_id || vars.DEFAULT_MANAGEMENT_GROUP_ID }} --query "[?policyType=='Custom'].{Name:name,DisplayName:displayName}" --output table
+          TARGET_ID="${{ github.event.inputs.target_management_group_id || vars.DEFAULT_MANAGEMENT_GROUP_ID }}"
+          echo "✅ Policy definition sets deployed successfully to ${{ env.TARGET_MANAGEMENT_GROUP_SCOPE }}"
+          echo "📋 Definition sets reference custom policies from: ${{ env.SOURCE_MANAGEMENT_GROUP_SCOPE }}"
+          az policy set-definition list --management-group $TARGET_ID --query "[?policyType=='Custom'].{Name:name,DisplayName:displayName}" --output table
